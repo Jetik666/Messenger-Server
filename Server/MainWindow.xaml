@@ -1,0 +1,54 @@
+﻿<Window x:Class="Server.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Server"
+        mc:Ignorable="d"
+        Title="Messenger - Server" WindowStyle="None"
+        Height="450" Width="800"
+        MinHeight="450" MinWidth="800"
+        WindowStartupLocation="CenterScreen">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="20" GlassFrameThickness="0" CornerRadius="0"
+                      UseAeroCaptionButtons="False" ResizeBorderThickness="7"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <ResourceDictionary Source="Styles/MainStyles.xaml"/>
+    </Window.Resources>
+
+    <Grid Style="{StaticResource MainGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" WindowChrome.IsHitTestVisibleInChrome="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" BorderBrush="#000" BorderThickness="0 0 0 1">
+                <TextBlock Style="{StaticResource MainTextBlock}" Text="Server" Margin="15 0 0 0"/>
+            </Border>
+
+            <Border Grid.Column="1" BorderBrush="#000" BorderThickness="1 0 0 1">
+                <Button Style="{StaticResource TaskBarButton}" Content="🗕"/>
+            </Border>
+
+            <Border Grid.Column="2" BorderBrush="#000" BorderThickness="1 0 0 1">
+                <Button Style="{StaticResource TaskBarButton}" Content="🗖"/>
+            </Border>
+
+            <Border Grid.Column="3" BorderBrush="#000" BorderThickness="1 0 0 1">
+                <Button Style="{StaticResource TaskBarButton}" Content="✕"/>
+            </Border>
+        </Grid>
+        
+    </Grid>
+</Window>

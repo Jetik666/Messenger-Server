@@ -8,7 +8,7 @@
         Title="Messenger - Server" WindowStyle="None"
         Height="450" Width="800"
         MinHeight="450" MinWidth="800"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Background="#222">
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="20" GlassFrameThickness="0" CornerRadius="0"
@@ -19,13 +19,14 @@
         <ResourceDictionary Source="Styles/MainStyles.xaml"/>
     </Window.Resources>
 
-    <Grid Style="{StaticResource MainGrid}">
+    <Grid Style="{StaticResource TaskBarGrid}" Margin="5 0 5 5">
+        
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" WindowChrome.IsHitTestVisibleInChrome="True">
+        <Grid Grid.Row="0" Background="#222">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="20"/>
@@ -33,21 +34,41 @@
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" BorderBrush="#000" BorderThickness="0 0 0 1">
-                <TextBlock Style="{StaticResource MainTextBlock}" Text="Server" Margin="15 0 0 0"/>
+            <Border Grid.Column="0" BorderBrush="#fff" BorderThickness="0 0 0 2">
+                <TextBlock Style="{StaticResource MainTextBlock}" Text="Server" Margin="15 0 0 0"
+                           VerticalAlignment="Bottom"/>
             </Border>
 
-            <Border Grid.Column="1" BorderBrush="#000" BorderThickness="1 0 0 1">
-                <Button Style="{StaticResource TaskBarButton}" Content="🗕"/>
+            <Border Grid.Column="1" Style="{StaticResource TaskBarBorder}">
+                <Button Style="{StaticResource TaskBarButton}" Content="🗕" Click="MinimizeProgram"/>
             </Border>
 
-            <Border Grid.Column="2" BorderBrush="#000" BorderThickness="1 0 0 1">
-                <Button Style="{StaticResource TaskBarButton}" Content="🗖"/>
+            <Border Grid.Column="2" Style="{StaticResource TaskBarBorder}">
+                <Button Style="{StaticResource TaskBarButton}" Content="🗖" Click="MaximizeProgram"/>
             </Border>
 
-            <Border Grid.Column="3" BorderBrush="#000" BorderThickness="1 0 0 1">
-                <Button Style="{StaticResource TaskBarButton}" Content="✕"/>
+            <Border Grid.Column="3" Style="{StaticResource TaskBarBorder}">
+                <Button Style="{StaticResource TaskBarButton}" Content="✕" Click="CloseProgram"/>
             </Border>
+            
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="5">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Style="{StaticResource MainGrid}">
+                
+            </Grid>
+
+            <Grid Grid.Column="2" Style="{StaticResource MainGrid}">
+
+            </Grid>
+
         </Grid>
         
     </Grid>

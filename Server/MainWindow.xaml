@@ -3,11 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Server"
-        mc:Ignorable="d"
-        Title="Messenger - Server" WindowStyle="None"
-        Height="450" Width="800"
-        MinHeight="450" MinWidth="800"
+        xmlns:local="clr-namespace:Server" x:Name="ServerProgram"
+        mc:Ignorable="d" Title="Messenger - Server" 
+        WindowStyle="SingleBorderWindow"
+        Height="450" Width="800" MinHeight="450" MinWidth="800"
         WindowStartupLocation="CenterScreen" Background="#222">
 
     <WindowChrome.WindowChrome>
@@ -19,14 +18,14 @@
         <ResourceDictionary Source="Styles/MainStyles.xaml"/>
     </Window.Resources>
 
-    <Grid Style="{StaticResource TaskBarGrid}" Margin="5 0 5 5">
+    <Grid x:Name="MainFrame" Style="{StaticResource TaskBarGrid}" Margin="5 0 5 5">
         
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Background="#222">
+        <Grid Grid.Row="0" Background="#222" Margin="5 0 5 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="20"/>
@@ -34,26 +33,26 @@
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" BorderBrush="#fff" BorderThickness="0 0 0 2">
-                <TextBlock Style="{StaticResource MainTextBlock}" Text="Server" Margin="15 0 0 0"
+            <Grid Grid.Column="0">
+                <TextBlock Style="{StaticResource TaskBarTextBlock}" Text="Server"
                            VerticalAlignment="Bottom"/>
-            </Border>
+            </Grid>
 
-            <Border Grid.Column="1" Style="{StaticResource TaskBarBorder}">
+            <Grid Grid.Column="1">
                 <Button Style="{StaticResource TaskBarButton}" Content="🗕" Click="MinimizeProgram"/>
-            </Border>
+            </Grid>
 
-            <Border Grid.Column="2" Style="{StaticResource TaskBarBorder}">
+            <Grid Grid.Column="2">
                 <Button Style="{StaticResource TaskBarButton}" Content="🗖" Click="MaximizeProgram"/>
-            </Border>
+            </Grid>
 
-            <Border Grid.Column="3" Style="{StaticResource TaskBarBorder}">
+            <Grid Grid.Column="3">
                 <Button Style="{StaticResource TaskBarButton}" Content="✕" Click="CloseProgram"/>
-            </Border>
+            </Grid>
             
         </Grid>
 
-        <Grid Grid.Row="1" Margin="5">
+        <Grid Grid.Row="1" Margin="5 5 5 5">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="32"/>
@@ -62,6 +61,20 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0" Style="{StaticResource MainGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="32"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Style="{StaticResource MainGrid}">
+                    <Button Style="{StaticResource MainButton}" Content="T"/>
+                </Grid>
+
+                <Grid Grid.Row="1" Style="{StaticResource MainGrid}">
+                    <Button Style="{StaticResource MainButton}" Content="d"/>
+                </Grid>
                 
             </Grid>
 

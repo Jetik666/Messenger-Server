@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows;
-
 using Core;
 
 namespace Server
 {
     public partial class MainWindow : Window
     {
-        readonly NetworkServerHost host;
+        private readonly NetworkServerHost _host;
+
 
         public MainWindow()
         {
             InitializeComponent();
-            host = new NetworkServerHost();
-            _ = host.Start();
+
+            _host = new NetworkServerHost();
+            //_ = host.Start();
         }
 
         private void MinimizeProgram(object sender, EventArgs e)
@@ -25,17 +24,24 @@ namespace Server
 
         private void MaximizeProgram(object sender, EventArgs e)
         {
-            if (WindowState != WindowState.Maximized)
+            switch (WindowState)
             {
-                WindowState = WindowState.Maximized;
-                return;
+                case WindowState.Normal:
+                    ResizeMode = ResizeMode.NoResize;
+                    WindowState = WindowState.Maximized;
+                    MainFrame.Margin = new Thickness(10, 5, 10, 60);
+                    break;
+                case WindowState.Maximized:
+                    ResizeMode = ResizeMode.CanResize;
+                    WindowState = WindowState.Normal;
+                    MainFrame.Margin = new Thickness(5, 0, 5, 5);
+                    break;
             }
-            WindowState = WindowState.Normal;
         }
 
         private void CloseProgram(object sender, EventArgs e)
         {
-            _ = host.Close();
+            _ = _host.Close();
             Close();
         }
     }

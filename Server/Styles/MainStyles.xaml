@@ -35,6 +35,20 @@
         <Setter Property="Background" Value="#303030"/>
     </Style>
 
+    <Style x:Key="MainButton" TargetType="Button" BasedOn="{StaticResource TemplateButton}">
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Width" Value="32"/>
+
+        <Setter Property="Background" Value="#222"/>
+        <Setter Property="Foreground" Value="#fff"/>
+        <Setter Property="FontSize" Value="14"/>
+
+        <Setter Property="BorderThickness" Value="0"/>
+
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
     <Style x:Key="TaskBarGrid" TargetType="Grid">
         <Setter Property="Background" Value="#222"/>
     </Style>
@@ -44,22 +58,20 @@
         <Setter Property="BorderThickness" Value="2 0 0 2"/>
     </Style>
 
-    <Style x:Key="MainButton" TargetType="Button" BasedOn="{StaticResource TemplateButton}">
+    <Style x:Key="TaskBarTextBlock" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#fff"/>
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+
+    <Style x:Key="TaskBarButton" TargetType="Button" BasedOn="{StaticResource TemplateButton}">
+        <Setter Property="Height" Value="25"/>
+        <Setter Property="Width" Value="25"/>
+
         <Setter Property="Background" Value="#222"/>
         <Setter Property="Foreground" Value="#fff"/>
         <Setter Property="FontSize" Value="14"/>
 
         <Setter Property="BorderThickness" Value="0"/>
-    </Style>
-    
-    <Style x:Key="MainTextBlock" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="#fff"/>
-        <Setter Property="FontSize" Value="14"/>
-    </Style>
-
-    <Style x:Key="TaskBarButton" TargetType="Button" BasedOn="{StaticResource MainButton}">
-        <Setter Property="Height" Value="25"/>
-        <Setter Property="Width" Value="25"/>
 
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{06ED3206-52CB-43E4-A858-A291A64AAFBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Account", "Account\Account.csproj", "{47939157-3485-423E-B09F-A567214A3531}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Account", "Account\Account.csproj", "{47939157-3485-423E-B09F-A567214A3531}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data Converter", "Data Converter\Data Converter.csproj", "{EF8D42E3-FC45-479D-8291-ABD1973C682A}"
 EndProject

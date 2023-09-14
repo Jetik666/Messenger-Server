@@ -57,46 +57,22 @@ namespace Server
         {
             if (sender is Button button)
             {
-                if (Math.Abs(MenuBarWidth.Width.Value - 128) < 0.001)
+                if (Math.Abs(MenuBar.Width - 128) < 0.001)
                 {
-                    await ShowAllAnimation(128, 32);
+                    await AnimationHandler.DoubleAnimation(MenuBar, WidthProperty, 128, 32, 200);
                     button.Content = "|->";
-                    Debug.WriteLine($"Hide {Math.Abs(MenuBarWidth.Width.Value - 128)}");
+                    Debug.WriteLine($"Hide {Math.Abs(MenuBar.Width - 128)}");
                 }
                 else
                 {
-                    await ShowAllAnimation(32, 128);
+                    await AnimationHandler.DoubleAnimation(MenuBar, WidthProperty, 32, 128, 200);
                     button.Content = "<-|";
-                    Debug.WriteLine($"All {Math.Abs(MenuBarWidth.Width.Value - 128)}");
+                    Debug.WriteLine($"All {Math.Abs(MenuBar.Width - 128)}");
                 }
             }
             else
             {
                 Debug.WriteLine("ShowDesc function was called by non-Button sender.");
-            }
-        }
-
-        private async Task ShowAllAnimation(double fromWidth, double toWidth)
-        {
-            MenuBarWidth.Width = new GridLength(toWidth);
-
-            DoubleAnimation animation = new DoubleAnimation
-            {
-                From = fromWidth,
-                To = toWidth,
-                Duration = TimeSpan.FromMilliseconds(100)
-            };
-
-            // Check that the MenuBarWidth is correctly bound and the WidthProperty is the correct dependency property
-            if (MenuBarWidth != null && WidthProperty != null)
-            {
-                MenuBarWidth.BeginAnimation(WidthProperty, animation);
-                await Task.Delay(100); // Add a small delay to ensure the animation has time to start
-                Debug.WriteLine("Show all animation is finished.");
-            }
-            else
-            {
-                Debug.WriteLine("MenuBarWidth or WidthProperty is null.");
             }
         }
     }

@@ -55,12 +55,12 @@
         <Grid Grid.Row="1" Margin="5 5 5 5">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="MenuBarWidth" Width="32"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="8"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
+            <Grid x:Name="MenuBar" Grid.Column="0" Width="32">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32"/>
                     <RowDefinition Height="32"/>

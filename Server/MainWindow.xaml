@@ -67,6 +67,7 @@
                     <RowDefinition Height="32"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="32"/>
+                    <RowDefinition Height="32"/>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
@@ -117,6 +118,21 @@
                 </Grid>
 
                 <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32"/>
+                        <ColumnDefinition Width="96"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Style="{StaticResource MainGrid}">
+                        <Button Style="{StaticResource MenuButton}" Content="S" Click="ShowDesc"/>
+                    </Grid>
+
+                    <Grid Grid.Column="1" Style="{StaticResource MainGrid}">
+                        <TextBlock Style="{StaticResource MenuTextBlock}" Text="Settings"/>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="32"/>
                         <ColumnDefinition Width="96"/>

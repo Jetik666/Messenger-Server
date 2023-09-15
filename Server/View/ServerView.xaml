@@ -8,7 +8,79 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ServerView">
 
+    <Page.Resources>
+        <ResourceDictionary Source="/Styles/PageStyle.xaml"/>
+    </Page.Resources>
+
     <Grid>
-        
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Style="{StaticResource PageView}">
+            <TextBlock Style="{StaticResource PageName}" Text="Server control"
+                       HorizontalAlignment="Center"/>
+        </Grid>
+
+        <Grid Grid.Row="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Style="{StaticResource PageView}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Margin="5 0 0 0">
+                        <TextBlock Style="{StaticResource MainText}" Text="IP Address:" 
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Grid.Column="1" Margin="5 0 5 0">
+                        <TextBox x:Name="IP" Style="{StaticResource FillBox}" Text="127.0.0.1" 
+                                 VerticalAlignment="Center"/>
+                    </Grid>
+                    
+                </Grid>
+
+                <Grid Grid.Column="2" Style="{StaticResource PageView}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Margin="5 0 0 0">
+                        <TextBlock Style="{StaticResource MainText}" Text="Port:"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Grid.Column="1" Margin="5 0 5 0">
+                        <TextBox x:Name="Port" Style="{StaticResource FillBox}" Text="50500"
+                                 VerticalAlignment="Center"/>
+                    </Grid>
+
+                </Grid>
+
+            </Grid>
+            
+        </Grid>
+
     </Grid>
 </Page>

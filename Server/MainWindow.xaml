@@ -15,7 +15,7 @@
     </WindowChrome.WindowChrome>
 
     <Window.Resources>
-        <ResourceDictionary Source="Styles/MainStyles.xaml"/>
+        <ResourceDictionary Source="Styles/MainStyle.xaml"/>
     </Window.Resources>
 
     <Grid x:Name="MainFrame" Style="{StaticResource TaskBarGrid}" Margin="5 0 5 5">

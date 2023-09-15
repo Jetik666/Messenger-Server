@@ -5,23 +5,30 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 using Core;
+using Server.Control.Animations;
+using Server.Control.View;
 
 namespace Server
 {
     public partial class MainWindow : Window
     {
         private readonly NetworkServerHost _host;
+        private readonly ViewHandler _viewHandler;
 
         public MainWindow()
         {
             // Turn off hardware acceleration
             // Hide geforce experience overlay
             RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
+            _viewHandler = new ViewHandler();
+
 
             InitializeComponent();
 
             _host = new NetworkServerHost();
             //_ = host.Start();
+
+            
         }
 
         private void MinimizeProgram(object sender, RoutedEventArgs e)
@@ -50,6 +57,24 @@ namespace Server
         {
             _ = _host.Close();
             Close();
+        }
+
+        private void ServerView(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Test: Server view.");
+            ViewFrame.Navigate(_viewHandler.ServerView);
+        }
+
+        private void DatabaseView(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Test: Database view.");
+            ViewFrame.Navigate(_viewHandler.DatabaseView);
+        }
+
+        private void TerminalView(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Test: Terminal view.");
+            ViewFrame.Navigate(_viewHandler.TerminalView);
         }
 
         private async void ShowDesc(object sender, RoutedEventArgs e)

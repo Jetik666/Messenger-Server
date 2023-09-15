@@ -77,7 +77,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0" Style="{StaticResource MainGrid}">
-                        <Button Style="{StaticResource MenuButton}" Content="S"/>
+                        <Button Style="{StaticResource MenuButton}" Content="S" Click="ServerView"/>
                     </Grid>
 
                     <Grid Grid.Column="1" Style="{StaticResource MainGrid}">
@@ -93,7 +93,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0" Style="{StaticResource MainGrid}">
-                        <Button Style="{StaticResource MenuButton}" Content="D"/>
+                        <Button Style="{StaticResource MenuButton}" Content="D" Click="DatabaseView"/>
                     </Grid>
 
                     <Grid Grid.Column="1" Style="{StaticResource MainGrid}">
@@ -108,7 +108,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0" Style="{StaticResource MainGrid}">
-                        <Button Style="{StaticResource MenuButton}" Content="T"/>
+                        <Button Style="{StaticResource MenuButton}" Content="T" Click="TerminalView"/>
                     </Grid>
 
                     <Grid Grid.Column="1" Style="{StaticResource MainGrid}">
@@ -148,8 +148,8 @@
                 </Grid>
             </Grid>
 
-            <Grid Grid.Column="2" Style="{StaticResource MainGrid}">
-
+            <Grid Grid.Column="2">
+                <Frame x:Name="ViewFrame" NavigationUIVisibility="Hidden"/>
             </Grid>
 
         </Grid>

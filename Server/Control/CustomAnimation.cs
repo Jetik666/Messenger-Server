@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
-namespace Server
+namespace Server.Control.Animations
 {
     internal class AnimationHandler
     {

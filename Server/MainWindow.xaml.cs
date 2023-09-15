@@ -77,6 +77,12 @@ namespace Server
             ViewFrame.Navigate(_viewHandler.TerminalView);
         }
 
+        private void SettingsView(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Test: Settings view.");
+            ViewFrame.Navigate(_viewHandler.SettingsView);
+        }
+
         private async void ShowDesc(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)

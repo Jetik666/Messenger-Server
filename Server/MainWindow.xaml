@@ -124,7 +124,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0" Style="{StaticResource MainGrid}">
-                        <Button Style="{StaticResource MenuButton}" Content="S" Click="ShowDesc"/>
+                        <Button Style="{StaticResource MenuButton}" Content="S" Click="SettingsView"/>
                     </Grid>
 
                     <Grid Grid.Column="1" Style="{StaticResource MainGrid}">

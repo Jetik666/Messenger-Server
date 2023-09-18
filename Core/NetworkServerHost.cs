@@ -4,6 +4,53 @@ using System.Diagnostics;
 
 namespace Core
 {
+    /* AddressFamily
+    InterNetwork: адрес по протоколу IPv4
+    InterNetworkV6: адрес по протоколу IPv6
+    Ipx: адрес IPX или SPX
+    NetBios: адрес NetBios
+    */
+
+    /*SocketType
+    Dgram: сокет будет получать и отправлять дейтаграммы по протоколу Udp.
+           Данный тип сокета работает в связке с типом протокола - Udp и значением AddressFamily.InterNetwork
+    Raw: сокет имеет доступ к нижележащему протоколу транспортного уровня и может использовать для передачи сообщений такие протоколы, как ICMP и IGMP
+    Rdm: сокет может взаимодействовать с удаленными хостами без установки постоянного подключения.
+         В случае, если отправленные сокетом сообщения невозможно доставить, то сокет получит об этом уведомление
+    Seqpacket: обеспечивает надежную двустороннюю передачу данных с установкой постоянного подключения
+    Stream: обеспечивает надежную двустороннюю передачу данных с установкой постоянного подключения.Для связи используется протокол TCP,
+            поэтому этот тип сокета используется в паре с типом протокола Tcp и значением AddressFamily.InterNetwork
+    Unknown: адрес NetBios
+    */
+
+    /* ProtocolType
+    Ggp
+    Icmp
+    IcmpV6
+    Idp
+    Igmp
+    IP
+    IPSecAuthenticationHeader (Заголовок IPv6 AH)
+    IPSecEncapsulatingSecurityPayload (Заголовок IPv6 ESP)
+    IPv4
+    IPv6
+    IPv6DestinationOptions (Заголовок IPv6 Destination Options)
+    IPv6FragmentHeader (Заголовок IPv6 Fragment)
+    IPv6HopByHopOptions (Заголовок IPv6 Hop by Hop Options)
+    IPv6NoNextHeader (Заголовок IPv6 No next)
+    IPv6RoutingHeader (Заголовок IPv6 Routing)
+    Ipx
+    ND
+    Pup
+    Raw
+    Spx
+    SpxII
+    Tcp
+    Udp
+    Unknown (неизвестный протокол)
+    Unspecified (неуказанный протокол)
+    */
+
     public class NetworkServerHost : INetworkServerHost
     {
         private IPAddress? _ip;

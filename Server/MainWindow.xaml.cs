@@ -83,19 +83,19 @@ namespace Server
             ViewFrame.Navigate(_viewHandler.SettingsView);
         }
 
-        private async void ShowDesc(object sender, RoutedEventArgs e)
+        private void ShowDesc(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
             {
                 if (Math.Abs(MenuBar.Width - 128) < 0.001)
                 {
-                    await AnimationHandler.DoubleAnimation(MenuBar, WidthProperty, 128, 32, 200);
+                    AnimationHandler.DoubleAnimation(MenuBar, WidthProperty, 128, 32, 200);
                     button.Content = "|->";
                     Debug.WriteLine($"Hide {Math.Abs(MenuBar.Width - 128)}");
                 }
                 else
                 {
-                    await AnimationHandler.DoubleAnimation(MenuBar, WidthProperty, 32, 128, 200);
+                    AnimationHandler.DoubleAnimation(MenuBar, WidthProperty, 32, 128, 200);
                     button.Content = "<-|";
                     Debug.WriteLine($"All {Math.Abs(MenuBar.Width - 128)}");
                 }

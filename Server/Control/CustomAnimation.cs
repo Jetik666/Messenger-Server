@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -9,16 +8,16 @@ namespace Server.Control.Animations
 {
     internal class AnimationHandler
     {
-        public static async Task DoubleAnimation(object sender, DependencyProperty property, double fromValue, double toValue, double timer)
+        public static void DoubleAnimation(object sender, DependencyProperty property, double fromValue, double toValue, double timer)
         {
             if (sender == null)
             {
-                throw new ArgumentNullException("Sender is null.");
+                throw new ArgumentNullException(nameof(sender), "Sender is null.");
             }
 
             Debug.WriteLine(sender.GetType().Name + " type.");
 
-            DoubleAnimation animation = new DoubleAnimation
+            DoubleAnimation animation = new()
             {
                 From = fromValue,
                 To = toValue,
@@ -37,8 +36,6 @@ namespace Server.Control.Animations
                     Debug.WriteLine("Unknown type.");
                     break;
             }
-
-            await Task.CompletedTask;
         }
     }
 }

@@ -7,8 +7,14 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ServerView">
+    
     <Page.Resources>
-        <ResourceDictionary Source="/Styles/PageStyle.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/DefaultStyles.xaml"/>
+                <ResourceDictionary Source="/Styles/PageStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
@@ -82,13 +88,37 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0">
-                        <TextBlock Style="{StaticResource MainText}" Text="Address Family:" HorizontalAlignment="Right"/>
+                        <TextBlock Text="Address Family:" Style="{StaticResource MainText}" 
+                                   HorizontalAlignment="Right"/>
                     </Grid>
 
                     <Grid Grid.Column="1" Margin="5 0 5 0">
-                        <ComboBox Style="{StaticResource ServerItems}">
-                            <ComboBoxItem Style="{StaticResource ServerItem}" Content="Test"/>
-                        </ComboBox>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <TextBlock x:Name="AddressFamilyValue" Text="Test" 
+                                       Style="{StaticResource DefaultText}"
+                                       HorizontalAlignment="Left"/>
+
+                            <Popup x:Name="AddressFamilyPopup" IsOpen="False">
+                                <TextBlock>
+                                    <Button Content="Test1"/><LineBreak/>
+                                    <Button Content="Test2"/><LineBreak/>
+                                </TextBlock>
+                            </Popup>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Button x:Name="AddressFamilyShow" 
+                                    Style="{StaticResource DefaultButton}">
+                                <TextBlock Text="Show" 
+                                           Style="{StaticResource DefaultText}"/>
+                            </Button>
+                        </Grid>
+                        
                     </Grid>
                 </Grid>
 
@@ -104,7 +134,7 @@
                     </Grid>
 
                     <Grid Grid.Column="1" Margin="5 0 5 0">
-                        <TextBox x:Name="GetSocketType" Style="{StaticResource FillBox}" Text="50500" IsEnabled="True"/>
+                        
                     </Grid>
                 </Grid>
 
@@ -120,10 +150,10 @@
                     </Grid>
 
                     <Grid Grid.Column="1" Margin="5 0 5 0">
-                        <TextBox x:Name="GetProtocolType" Style="{StaticResource FillBox}" Text="50500" IsEnabled="True"/>
+                        
                     </Grid>
                 </Grid>
-
+                    
                 <Grid Grid.Row="5" VerticalAlignment="Top" Margin="5">
                     <Button x:Name="ChangeServerStatus" Style="{StaticResource ServerStatus}"
                             HorizontalAlignment="Stretch" VerticalAlignment="Center">

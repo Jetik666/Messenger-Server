@@ -5,26 +5,46 @@
         <ResourceDictionary Source="Templates.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="DefaultButton" TargetType="Button" BasedOn="{StaticResource TemplateButton}">
-        <Setter Property="Background" Value="#222"/>
-        <Setter Property="Foreground" Value="#fff"/>
-
-        <Setter Property="FontFamily" Value="JetBrains Mono"/>
-        <Setter Property="FontSize" Value="14"/>
-
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
-    </Style>
-
     <Style x:Key="DefaultText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="#fff"/>
+
         <Setter Property="FontFamily" Value="JetBrains Mono"/>
         <Setter Property="FontSize" Value="14"/>
 
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
-    
-    
-    
+
+    <Style x:Key="DefaultButton" TargetType="Button" BasedOn="{StaticResource TemplateButton}">
+        <Setter Property="BorderThickness" Value="0"/>
+
+        <Setter Property="Background" Value="#222"/>
+        <Setter Property="Foreground" Value="#fff"/>
+
+        <Setter Property="FontFamily" Value="./#JetBrains Mono"/>
+        <Setter Property="FontSize" Value="14"/>
+
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#fff"/>
+                <Setter Property="Foreground" Value="#000"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DefaultTextBox" TargetType="TextBox">
+        <Setter Property="Background" Value="#222"/>
+        <Setter Property="Foreground" Value="#fff"/>
+
+        <Setter Property="FontFamily" Value="./#JetBrains Mono"/>
+        <Setter Property="FontSize" Value="14"/>
+
+        <Setter Property="BorderThickness" Value="0"/>
+
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
 </ResourceDictionary>

@@ -3,39 +3,21 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Templates.xaml"/>
+        <ResourceDictionary Source="DefaultStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="PageView" TargetType="Grid">
         <Setter Property="Background" Value="#303030"/>
     </Style>
 
-    <Style x:Key="PageName" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="#fff"/>
-        <Setter Property="FontSize" Value="24"/>
-    </Style>
-    
-    <Style x:Key="MainText" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="#fff"/>
-        <Setter Property="FontSize" Value="14"/>
-
-        <Setter Property="Margin" Value="5 0 0 0"/>
+    <Style x:Key="Parameter" TargetType="TextBlock" BasedOn="{StaticResource DefaultText}">
+        <Setter Property="FontFamily" Value="Default"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
     </Style>
 
-    <Style x:Key="FillBox" TargetType="TextBox">
-        <Setter Property="Background" Value="#222"/>
-        <Setter Property="Foreground" Value="#fff"/>
-
-        <Setter Property="FontSize" Value="14"/>
-
-        <Setter Property="BorderThickness" Value="0"/>
-
-        <Setter Property="VerticalAlignment" Value="Center"/>
-    </Style>
-
-    <Style x:Key="ServerStatus" TargetType="Button" BasedOn="{StaticResource TemplateButton}">
+    <Style x:Key="ServerStatus" TargetType="Button" BasedOn="{StaticResource DefaultButton}">
         <Setter Property="Background" Value="#460707"/>
-        <Setter Property="Foreground" Value="#fff"/>
-        
+
         <Setter Property="FontSize" Value="24"/>
 
         <Setter Property="Height" Value="64"/>

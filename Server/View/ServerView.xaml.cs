@@ -24,5 +24,15 @@ namespace Server.View
         {
             InitializeComponent();
         }
+
+        private void ShowAddressFamily(object sender, RoutedEventArgs e)
+        {
+            AddressFamilyPopup.IsOpen = true;
+        }
+        
+        private void SetAddressFamily(object sender, RoutedEventArgs e)
+        {
+            AddressFamilyPopup.IsOpen = false;
+        }
     }
 }

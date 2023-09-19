@@ -97,20 +97,51 @@
                         </Grid.ColumnDefinitions>
 
                         <Grid Grid.Column="0">
-                            <TextBlock x:Name="AddressFamilyValue" Text="Test" 
+                            <TextBlock x:Name="AddressFamilyValue" Text="InterNetwork" 
                                        Style="{StaticResource DefaultText}"
                                        HorizontalAlignment="Left"/>
-
+                            <!--TODO: FIX-->
                             <Popup x:Name="AddressFamilyPopup" IsOpen="False">
-                                <TextBlock>
-                                    <Button Content="Test1"/><LineBreak/>
-                                    <Button Content="Test2"/><LineBreak/>
-                                </TextBlock>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <Button x:Name="ToInterNetwork" Content="InterNetwork" 
+                                                Click="SetAddressFamily"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <Button x:Name="ToInterNetworkV6" Content="InterNetworkV6" 
+                                                Click="SetAddressFamily"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+
+                                    <Grid Grid.Row="2">
+                                        <Button x:Name="ToIpx" Content="Ipx" 
+                                                Click="SetAddressFamily"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+
+                                    <Grid Grid.Row="3">
+                                        <Button x:Name="ToNetBios" Content="NetBios" 
+                                            Click="SetAddressFamily"
+                                            Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                </Grid>
                             </Popup>
                         </Grid>
 
                         <Grid Grid.Column="1">
-                            <Button x:Name="AddressFamilyShow" Style="{StaticResource DefaultButton}">
+                            <Button x:Name="AddressFamilyShow" Content="Show"
+                                    Click="ShowAddressFamily"
+                                    Style="{StaticResource DefaultButton}">
+                                <!--TODO: FIX THE ISSUE: textblock doesnt change the color when i hover it-->
                                 <TextBlock Text="Show" Style="{StaticResource DefaultText}"/>
                             </Button>
                         </Grid>

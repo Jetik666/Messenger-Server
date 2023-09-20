@@ -20,22 +20,17 @@ namespace Server
             // Turn off hardware acceleration
             // Hide geforce experience overlay
             RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
-            _viewHandler = new ViewHandler();
+            _viewHandler = new();
 
+            if (Debugger.IsAttached)
+            {
+                Debug.WriteLine($"Debugger is attached: {Debugger.IsAttached}");
+            }
 
-            InitializeComponent();
-
-            _host = new NetworkServerHost();
-            //_ = host.Start();
-
-            
+            InitializeComponent(); 
         }
 
-        private void MinimizeProgram(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-
+        private void MinimizeProgram(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
         private void MaximizeProgram(object sender, RoutedEventArgs e)
         {
             switch (WindowState)
@@ -50,36 +45,49 @@ namespace Server
                     WindowState = WindowState.Normal;
                     MainFrame.Margin = new Thickness(5, 0, 5, 5);
                     break;
+                default:
+                    if (Debugger.IsAttached)
+                    {
+                        Debug.WriteLine("Unknown action.");
+                    }
+                    break;
             }
         }
-
         private void CloseProgram(object sender, RoutedEventArgs e)
         {
-            _ = _host.Close();
             Close();
         }
 
         private void ServerView(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Test: Server view.");
+            if (Debugger.IsAttached)
+            {
+                Debug.WriteLine($"Test: {_viewHandler.ServerView.Name} view.");
+            }
             ViewFrame.Navigate(_viewHandler.ServerView);
         }
-
         private void DatabaseView(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Test: Database view.");
+            if (Debugger.IsAttached)
+            {
+                Debug.WriteLine("Test: Database view.");
+            }
             ViewFrame.Navigate(_viewHandler.DatabaseView);
         }
-
         private void TerminalView(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Test: Terminal view.");
+            if (Debugger.IsAttached)
+            {
+                Debug.WriteLine($"Test: Terminal view.");
+            }
             ViewFrame.Navigate(_viewHandler.TerminalView);
         }
-
         private void SettingsView(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Test: Settings view.");
+            if (Debugger.IsAttached)
+            {
+                Debug.WriteLine("Test: Settings view.");
+            }
             ViewFrame.Navigate(_viewHandler.SettingsView);
         }
 
@@ -91,18 +99,27 @@ namespace Server
                 {
                     AnimationHandler.DoubleAnimation(MenuBar, WidthProperty, 128, 32, 200);
                     button.Content = "|->";
-                    Debug.WriteLine($"Hide {Math.Abs(MenuBar.Width - 128)}");
+                    if (Debugger.IsAttached)
+                    {
+                        Debug.WriteLine($"Hide {Math.Abs(MenuBar.Width - 128)}");
+                    }
                 }
                 else
                 {
                     AnimationHandler.DoubleAnimation(MenuBar, WidthProperty, 32, 128, 200);
                     button.Content = "<-|";
-                    Debug.WriteLine($"All {Math.Abs(MenuBar.Width - 128)}");
+                    if (Debugger.IsAttached)
+                    {
+                        Debug.WriteLine($"All {Math.Abs(MenuBar.Width - 128)}");
+                    }
                 }
             }
             else
             {
-                Debug.WriteLine("ShowDesc function was called by non-Button sender.");
+                if (Debugger.IsAttached)
+                {
+                    Debug.WriteLine("ShowDesc function was called by non-Button sender.");
+                }
             }
         }
     }

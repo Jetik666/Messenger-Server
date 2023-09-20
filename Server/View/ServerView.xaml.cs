@@ -1,38 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Controls.Primitives;
+
+using Server.View.Page_Handlers;
 
 namespace Server.View
 {
-    /// <summary>
-    /// Interaction logic for ServerView.xaml
-    /// </summary>
     public partial class ServerView : Page
     {
+        private readonly PopupHandler _popups;
+
         public ServerView()
         {
             InitializeComponent();
+
+            _popups = new();
+            _popups.RegisterPopups(Popups);
         }
 
-        private void ShowAddressFamily(object sender, RoutedEventArgs e)
+        private List<Popup> Popups()
         {
-            AddressFamilyPopup.IsOpen = true;
+            List<Popup> popups = new()
+            {
+                AddressFamilyPopup,
+                SocketTypePopup,
+                ProtocolTypePopup
+            };
+            return popups;
         }
-        
-        private void SetAddressFamily(object sender, RoutedEventArgs e)
+
+        private void ShowValues(object sender, RoutedEventArgs e)
         {
-            AddressFamilyPopup.IsOpen = false;
+            if (sender is Button senderButton)
+            {
+                switch (senderButton.Name)
+                {
+                    case "AddressFamilyShow":
+                        _popups.OpenedPopup = AddressFamilyPopup;
+                        break;
+                    case "SocketTypeShow":
+                        _popups.OpenedPopup = SocketTypePopup;
+                        break;
+                    case "ProtocolTypeShow":
+                        _popups.OpenedPopup = ProtocolTypePopup; 
+                        break;
+                    default:
+                        if (Debugger.IsAttached)
+                        {
+                            Debug.WriteLine("Unknown command.");
+                        }
+                        _popups.ClosePopup();
+                        break;
+                }
+            }
+        }
+        private void SetValue(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button senderButton)
+            {
+                switch (senderButton.Tag)
+                {
+                    case "Address Family":
+                        _popups.ClosePopup(AddressFamilyPopup);
+                        AddressFamilyValue.Text = senderButton.Content.ToString();
+                        break;
+                    case "Socket Type":
+                        _popups.ClosePopup(SocketTypePopup);
+                        SocketTypeValue.Text = senderButton.Content.ToString();
+                        break;
+                    case "Protocol Type":
+                        _popups.ClosePopup(ProtocolTypePopup);
+                        ProtocolTypeValue.Text = senderButton.Content.ToString();
+                        break;
+                    default:
+                        if (Debugger.IsAttached)
+                        {
+                            Debug.WriteLine("Unknown command.");
+                        }
+                        _popups.ClosePopup();
+                        break;
+                }
+            }
         }
     }
 }

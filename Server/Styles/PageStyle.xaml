@@ -15,6 +15,14 @@
         <Setter Property="HorizontalAlignment" Value="Right"/>
     </Style>
 
+    <Style x:Key="ButtonText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="JetBrains Mono"/>
+        <Setter Property="FontSize" Value="14"/>
+
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    
     <Style x:Key="ServerStatus" TargetType="Button" BasedOn="{StaticResource DefaultButton}">
         <Setter Property="Background" Value="#460707"/>
 

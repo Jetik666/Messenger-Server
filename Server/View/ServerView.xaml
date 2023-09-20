@@ -3,7 +3,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d" 
+      mc:Ignorable="d" x:Name="ServerControl"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ServerView">
     
@@ -23,8 +23,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Style="{StaticResource PageView}">
-            <TextBlock Text="Server control" FontSize="24"
+        <Grid Grid.Row="0" 
+              Style="{StaticResource PageView}">
+            <TextBlock Text="Server control" 
+                       FontSize="24"
                        Style="{StaticResource DefaultText}"/>
         </Grid>
 
@@ -35,7 +37,8 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Style="{StaticResource PageView}">
+            <Grid Grid.Column="0" 
+                  Style="{StaticResource PageView}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32"/>
                     <RowDefinition Height="32"/>
@@ -46,62 +49,77 @@
                 </Grid.RowDefinitions>
 
                 <!--IP-->
-                <Grid Grid.Row="0" VerticalAlignment="Center">
+                <Grid Grid.Row="0" 
+                      VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0">
-                        <TextBlock Text="IP Address:" Style="{StaticResource Parameter}"/>
+                        <TextBlock Text="IP Address:" 
+                                   Style="{StaticResource Parameter}"/>
                     </Grid>
 
-                    <Grid Grid.Column="1" Margin="5 0 5 0">
-                        <TextBox x:Name="GetIP" Text="127.0.0.1" IsEnabled="True"
+                    <Grid Grid.Column="1" 
+                          Margin="5 0 5 0">
+                        <TextBox x:Name="GetIP" 
+                                 Text="127.0.0.1" 
+                                 IsEnabled="True"
                                  Style="{StaticResource DefaultTextBox}"/>
                     </Grid>
                 </Grid>
 
                 <!--Port-->
-                <Grid Grid.Row="1" VerticalAlignment="Center">
+                <Grid Grid.Row="1" 
+                      VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0">
-                        <TextBlock Text="Port:" Style="{StaticResource Parameter}"/>
+                        <TextBlock Text="Port:" 
+                                   Style="{StaticResource Parameter}"/>
                     </Grid>
 
-                    <Grid Grid.Column="1" Margin="5 0 5 0">
-                        <TextBox x:Name="GetPort" Text="50500" IsEnabled="True"
+                    <Grid Grid.Column="1" 
+                          Margin="5 0 5 0">
+                        <TextBox x:Name="GetPort" 
+                                 Text="50500" 
+                                 IsEnabled="True"
                                  Style="{StaticResource DefaultTextBox}"/>
                     </Grid>
                 </Grid>
 
                 <!--Address Family-->
-                <Grid Grid.Row="2" VerticalAlignment="Center">
+                <Grid Grid.Row="2" 
+                      VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0">
-                        <TextBlock Text="Address Family:" Style="{StaticResource Parameter}"/>
+                        <TextBlock Text="Address Family:" 
+                                   Style="{StaticResource Parameter}"/>
                     </Grid>
 
-                    <Grid Grid.Column="1" Margin="5 0 5 0">
+                    <Grid Grid.Column="1" 
+                          Margin="5 0 5 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="50"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid Grid.Column="0">
-                            <TextBlock x:Name="AddressFamilyValue" Text="InterNetwork" 
-                                       Style="{StaticResource DefaultText}"
-                                       HorizontalAlignment="Left"/>
-                            <!--TODO: FIX-->
-                            <Popup x:Name="AddressFamilyPopup" IsOpen="False">
+                            <TextBlock x:Name="AddressFamilyValue" 
+                                       Text="InterNetwork" 
+                                       HorizontalAlignment="Left"
+                                       Style="{StaticResource DefaultText}"/>
+
+                            <Popup x:Name="AddressFamilyPopup" 
+                                   IsOpen="False">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
@@ -111,78 +129,366 @@
                                     </Grid.RowDefinitions>
 
                                     <Grid Grid.Row="0">
-                                        <Button x:Name="ToInterNetwork" Content="InterNetwork" 
-                                                Click="SetAddressFamily"
+                                        <Button Content="InterNetwork" 
+                                                Tag="Address Family"
+                                                Click="SetValue" 
                                                 Style="{StaticResource DefaultButton}"/>
                                     </Grid>
 
                                     <Grid Grid.Row="1">
-                                        <Button x:Name="ToInterNetworkV6" Content="InterNetworkV6" 
-                                                Click="SetAddressFamily"
+                                        <Button Content="InterNetworkV6" 
+                                                Tag="Address Family" 
+                                                Click="SetValue" 
                                                 Style="{StaticResource DefaultButton}"/>
                                     </Grid>
 
                                     <Grid Grid.Row="2">
-                                        <Button x:Name="ToIpx" Content="Ipx" 
-                                                Click="SetAddressFamily"
+                                        <Button Content="Ipx" 
+                                                Tag="Address Family" 
+                                                Click="SetValue" 
                                                 Style="{StaticResource DefaultButton}"/>
                                     </Grid>
 
                                     <Grid Grid.Row="3">
-                                        <Button x:Name="ToNetBios" Content="NetBios" 
-                                            Click="SetAddressFamily"
-                                            Style="{StaticResource DefaultButton}"/>
+                                        <Button Content="NetBios" 
+                                                Tag="Address Family" 
+                                                Click="SetValue" 
+                                                Style="{StaticResource DefaultButton}"/>
                                     </Grid>
                                 </Grid>
                             </Popup>
                         </Grid>
 
                         <Grid Grid.Column="1">
-                            <Button x:Name="AddressFamilyShow" Content="Show"
-                                    Click="ShowAddressFamily"
+                            <Button x:Name="AddressFamilyShow" 
+                                    Click="ShowValues"
                                     Style="{StaticResource DefaultButton}">
-                                <!--TODO: FIX THE ISSUE: textblock doesnt change the color when i hover it-->
-                                <TextBlock Text="Show" Style="{StaticResource DefaultText}"/>
+                                <TextBlock Text="Show" 
+                                           Style="{StaticResource ButtonText}"/>
                             </Button>
                         </Grid>
                     </Grid>
                 </Grid>
 
                 <!--Socket Type-->
-                <Grid Grid.Row="3" VerticalAlignment="Center">
+                <Grid Grid.Row="3" 
+                      VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0">
-                        <TextBlock Text="Socket Type:" Style="{StaticResource Parameter}"/>
+                        <TextBlock Text="Socket Type:" 
+                                   Style="{StaticResource Parameter}"/>
                     </Grid>
 
-                    <Grid Grid.Column="1" Margin="5 0 5 0">
-                        
+                    <Grid Grid.Column="1" 
+                          Margin="5 0 5 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <TextBlock x:Name="SocketTypeValue"
+                                       Text="Stream" 
+                                       HorizontalAlignment="Left"
+                                       Style="{StaticResource DefaultText}"/>
+                            
+                            <Popup x:Name="SocketTypePopup" 
+                                   IsOpen="False">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <Button Content="Dgram" 
+                                                Tag="Socket Type"
+                                                Click="SetValue" 
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Button Content="Raw" 
+                                                Tag="Socket Type"
+                                                Click="SetValue" 
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <Button Content="Rdm" 
+                                                Tag="Socket Type"
+                                                 Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="3">
+                                        <Button Content="Seqpacket" 
+                                                Tag="Socket Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="4">
+                                        <Button Content="Stream"
+                                                Tag="Socket Type"
+                                                Click="SetValue" 
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="5">
+                                        <Button Content="Unknown"
+                                                Tag="Socket Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Button x:Name="SocketTypeShow" 
+                                    Click="ShowValues"
+                                    Style="{StaticResource DefaultButton}">
+                                <TextBlock Text="Show" 
+                                           Style="{StaticResource ButtonText}"/>
+                            </Button>
+                        </Grid>
                     </Grid>
                 </Grid>
 
                 <!--Protocol Type-->
-                <Grid Grid.Row="4" VerticalAlignment="Center">
+                <Grid Grid.Row="4" 
+                      VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0">
-                        <TextBlock Text="Protocol Type:" Style="{StaticResource Parameter}"/>
+                        <TextBlock Text="Protocol Type:" 
+                                   Style="{StaticResource Parameter}"/>
                     </Grid>
 
                     <Grid Grid.Column="1" Margin="5 0 5 0">
-                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <TextBlock x:Name="ProtocolTypeValue" 
+                                       Text="Tcp" 
+                                       HorizontalAlignment="Left"
+                                       Style="{StaticResource DefaultText}"/>
+
+                            <Popup x:Name="ProtocolTypePopup" 
+                                   IsOpen="False">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <Button Content="Ggp" 
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Button Content="Icmp" 
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <Button Content="IcmpV6"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="3">
+                                        <Button Content="Idp"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="4">
+                                        <Button Content="Igmp"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="5">
+                                        <Button Content="IP"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="6">
+                                        <Button Content="IPSecAuthenticationHeader"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="7">
+                                        <Button Content="IPSecEncapsulatingSecurityPayload"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="8">
+                                        <Button Content="IPv4"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="9">
+                                        <Button Content="IPv6"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="10">
+                                        <Button Content="IPv6DestinationOptions"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="11">
+                                        <Button Content="IPv6FragmentHeader"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="12">
+                                        <Button Content="IPv6HopByHopOptions" 
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="13">
+                                        <Button Content="IPv6NoNextHeader" 
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="14">
+                                        <Button Content="IPv6RoutingHeader"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="15">
+                                        <Button Content="Ipx"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="16">
+                                        <Button Content="ND"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="17">
+                                        <Button Content="Pup"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="18">
+                                        <Button Content="Raw"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="19">
+                                        <Button Content="Spx"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="20">
+                                        <Button Content="SpxII"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="21">
+                                        <Button Content="Tcp"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="22">
+                                        <Button Content="Udp"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="23">
+                                        <Button Content="Unknown"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="24">
+                                        <Button Content="Unspecified"
+                                                Tag="Protocol Type"
+                                                Click="SetValue"
+                                                Style="{StaticResource DefaultButton}"/>
+                                    </Grid>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Button x:Name="ProtocolTypeShow" 
+                                    Click="ShowValues"
+                                    Style="{StaticResource DefaultButton}">
+                                <TextBlock Text="Show" 
+                                           Style="{StaticResource ButtonText}"/>
+                            </Button>
+                        </Grid>
                     </Grid>
                 </Grid>
                     
-                <Grid Grid.Row="5" VerticalAlignment="Top" Margin="5">
-                    <Button x:Name="ChangeServerStatus" Style="{StaticResource ServerStatus}">
-                        <TextBlock x:Name="ServerStatus" Text="Start" FontSize="24"
+                <Grid Grid.Row="5" 
+                      VerticalAlignment="Top" 
+                      Margin="5">
+                    <Button x:Name="ChangeServerStatus" 
+                            Style="{StaticResource ServerStatus}">
+                        <TextBlock x:Name="ServerStatus" 
+                                   Text="Start" 
+                                   FontSize="24"
                                    Style="{StaticResource DefaultText}"/>
                     </Button>
                 </Grid>

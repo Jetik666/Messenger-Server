@@ -6,6 +6,7 @@
         <ResourceDictionary Source="DefaultStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+
     <Style x:Key="PageView" TargetType="Grid">
         <Setter Property="Background" Value="#303030"/>
     </Style>
@@ -23,12 +24,20 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
     
-    <Style x:Key="ServerStatus" TargetType="Button" BasedOn="{StaticResource DefaultButton}">
-        <Setter Property="Background" Value="#460707"/>
+    <SolidColorBrush x:Key="StatusColor" Color="#4B0000"/>
+    <SolidColorBrush x:Key="IsMouseOverColor" Color="#004B00"/>
+    <Style x:Name="ServerStatusStyle" x:Key="ServerStatus" TargetType="Button" BasedOn="{StaticResource DefaultButton}">
+        <Setter Property="Background" Value="{DynamicResource StatusColor}"/> <!--#4B0000-->
 
         <Setter Property="FontSize" Value="24"/>
 
         <Setter Property="Height" Value="64"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource IsMouseOverColor}"/> <!--#004B00-->
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

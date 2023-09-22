@@ -1,6 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Net;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 
 namespace Core
 {
@@ -130,7 +131,7 @@ namespace Core
             }
         }
 
-        public async Task Start()
+        public void Start()
         {
             try
             {
@@ -152,16 +153,7 @@ namespace Core
 
                 TcpSocket.Listen(2);
 
-                while (true)
-                {
-                    Debug.WriteLine("Ping");
-                    Socket clientSocket = await Task.Factory.FromAsync(
-                        new Func<AsyncCallback, object?, IAsyncResult>(TcpSocket.BeginAccept),
-                        new Func<IAsyncResult, Socket>(TcpSocket.EndAccept),
-                        null);
-
-                    DataHandler.HandleAsyncClient(clientSocket);
-                }
+                Listener();
             }
             catch (Exception ex)
             {
@@ -171,7 +163,7 @@ namespace Core
                 CanReceive = false;
             }
         }
-        public async Task Close()
+        public async void Close()
         {
             try
             {
@@ -190,7 +182,7 @@ namespace Core
                 await Task.CompletedTask;
             }
         }
-        public async Task ShutdownBoth()
+        public async void ShutdownBoth()
         {
             try
             {
@@ -208,7 +200,7 @@ namespace Core
             }
             await Task.CompletedTask;
         }
-        public async Task ShutdownSendOnly()
+        public async void ShutdownSendOnly()
         {
             try
             {
@@ -224,7 +216,7 @@ namespace Core
             }
             await Task.CompletedTask;
         }
-        public async Task ShutdownReceiveOnly()
+        public async void ShutdownReceiveOnly()
         {
             try
             {
@@ -239,6 +231,20 @@ namespace Core
                 CanReceive = true;
             }
             await Task.CompletedTask;
+        }
+
+        private async void Listener()
+        {
+            while (true)
+            {
+                Debug.WriteLine("Ping");
+                Socket clientSocket = await Task.Factory.FromAsync(
+                    new Func<AsyncCallback, object?, IAsyncResult>(TcpSocket.BeginAccept),
+                    new Func<IAsyncResult, Socket>(TcpSocket.EndAccept),
+                    null);
+
+                DataHandler.HandleAsyncClient(clientSocket);
+            }
         }
     }
 }

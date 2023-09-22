@@ -1,5 +1,7 @@
 ﻿using Server.View;
 
+using Core;
+
 namespace Server.Control.View
 {
     internal class ViewHandler
@@ -7,12 +9,11 @@ namespace Server.Control.View
         public ServerView ServerView { get; }
         public TerminalView TerminalView { get; }
         public DatabaseView DatabaseView { get; }
-
         public SettingsView SettingsView { get; }
 
-        public ViewHandler()
+        public ViewHandler(NetworkServerHost host)
         {
-            ServerView = new ServerView();
+            ServerView = new ServerView(host);
             TerminalView = new TerminalView();
             DatabaseView = new DatabaseView();
             SettingsView = new SettingsView();

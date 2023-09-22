@@ -17,17 +17,14 @@ namespace Server
 
         public MainWindow()
         {
+            InitializeComponent();
+
             // Turn off hardware acceleration
             // Hide geforce experience overlay
             RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
-            _viewHandler = new();
 
-            if (Debugger.IsAttached)
-            {
-                Debug.WriteLine($"Debugger is attached: {Debugger.IsAttached}");
-            }
-
-            InitializeComponent(); 
+            _host = new NetworkServerHost();
+            _viewHandler = new(_host);
         }
 
         private void MinimizeProgram(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
@@ -46,10 +43,6 @@ namespace Server
                     MainFrame.Margin = new Thickness(5, 0, 5, 5);
                     break;
                 default:
-                    if (Debugger.IsAttached)
-                    {
-                        Debug.WriteLine("Unknown action.");
-                    }
                     break;
             }
         }
@@ -62,73 +55,34 @@ namespace Server
         private void WindowDeactivated(object sender, EventArgs e) => CloseAllPopups();
         private void WindowLocation(object sender, EventArgs e) => CloseAllPopups();
 
+        // TODO: Add additional popups from other views
         private void CloseAllPopups()
         {
             _viewHandler.ServerView.PopupHandler.DeactivatePopups();
         }
 
-        private void ServerView(object sender, RoutedEventArgs e)
-        {
-            if (Debugger.IsAttached)
-            {
-                Debug.WriteLine($"Test: {_viewHandler.ServerView.Name} view.");
-            }
-            ViewFrame.Navigate(_viewHandler.ServerView);
-        }
-        private void DatabaseView(object sender, RoutedEventArgs e)
-        {
-            if (Debugger.IsAttached)
-            {
-                Debug.WriteLine("Test: Database view.");
-            }
-            ViewFrame.Navigate(_viewHandler.DatabaseView);
-        }
-        private void TerminalView(object sender, RoutedEventArgs e)
-        {
-            if (Debugger.IsAttached)
-            {
-                Debug.WriteLine($"Test: Terminal view.");
-            }
-            ViewFrame.Navigate(_viewHandler.TerminalView);
-        }
-        private void SettingsView(object sender, RoutedEventArgs e)
-        {
-            if (Debugger.IsAttached)
-            {
-                Debug.WriteLine("Test: Settings view.");
-            }
-            ViewFrame.Navigate(_viewHandler.SettingsView);
-        }
+        private void ServerView(object sender, RoutedEventArgs e) => ViewFrame.Navigate(_viewHandler.ServerView);
+        private void DatabaseView(object sender, RoutedEventArgs e) => ViewFrame.Navigate(_viewHandler.DatabaseView);
+        private void TerminalView(object sender, RoutedEventArgs e) => ViewFrame.Navigate(_viewHandler.TerminalView);
+        private void SettingsView(object sender, RoutedEventArgs e) => ViewFrame.Navigate(_viewHandler.SettingsView);
 
         private void ShowDesc(object sender, RoutedEventArgs e)
         {
             CloseAllPopups();
+
+            Debug.WriteLine(_host.IsOnline);
+
             if (sender is Button button)
             {
                 if (Math.Abs(MenuBar.Width - 128) < 0.001)
                 {
                     AnimationHandler.DoubleAnimation(MenuBar, WidthProperty, 128, 32, 200);
                     button.Content = "|->";
-                    if (Debugger.IsAttached)
-                    {
-                        Debug.WriteLine($"Hide {Math.Abs(MenuBar.Width - 128)}");
-                    }
                 }
                 else
                 {
                     AnimationHandler.DoubleAnimation(MenuBar, WidthProperty, 32, 128, 200);
                     button.Content = "<-|";
-                    if (Debugger.IsAttached)
-                    {
-                        Debug.WriteLine($"All {Math.Abs(MenuBar.Width - 128)}");
-                    }
-                }
-            }
-            else
-            {
-                if (Debugger.IsAttached)
-                {
-                    Debug.WriteLine("ShowDesc function was called by non-Button sender.");
                 }
             }
         }

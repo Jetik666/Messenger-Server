@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
+using Core;
 using Server.View.Page_Handlers;
 
 namespace Server.View
@@ -10,10 +13,13 @@ namespace Server.View
     public partial class ServerView : Page
     {
         private readonly PopupHandler _popups;
+        private readonly NetworkServerHost _host;
 
-        public ServerView()
+        public ServerView(NetworkServerHost host)
         {
             InitializeComponent();
+
+            _host = host;
 
             _popups = new();
             _popups.RegisterPopups(Popups);
@@ -50,10 +56,6 @@ namespace Server.View
                         _popups.OpenedPopup = ProtocolTypePopup; 
                         break;
                     default:
-                        if (Debugger.IsAttached)
-                        {
-                            Debug.WriteLine("Unknown command.");
-                        }
                         _popups.ClosePopup();
                         break;
                 }
@@ -78,14 +80,38 @@ namespace Server.View
                         ProtocolTypeValue.Text = senderButton.Content.ToString();
                         break;
                     default:
-                        if (Debugger.IsAttached)
-                        {
-                            Debug.WriteLine("Unknown command.");
-                        }
                         _popups.ClosePopup();
                         break;
                 }
             }
+        }
+        
+        private void ServerStart(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button senderButton)
+            {
+                _host.Start();
+
+                
+                try
+                {
+                    Application.Current.Resources["StatusColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#004B00"));
+                    Application.Current.Resources["IsMouseOverColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4B0000"));
+
+                }
+                catch (Exception ex) 
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                { 
+                }
+            }
+        }
+        private void ServerClose(object sender, RoutedEventArgs e)
+        {
+
+            _host.Close();
         }
     }
 }

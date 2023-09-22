@@ -485,11 +485,12 @@
                       VerticalAlignment="Top" 
                       Margin="5">
                     <Button x:Name="ChangeServerStatus" 
+                            Click="ServerStart"
                             Style="{StaticResource ServerStatus}">
                         <TextBlock x:Name="ServerStatus" 
                                    Text="Start" 
                                    FontSize="24"
-                                   Style="{StaticResource DefaultText}"/>
+                                   Style="{DynamicResource DefaultText}"/>
                     </Button>
                 </Grid>
             </Grid>

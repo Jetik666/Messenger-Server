@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows.Controls.Primitives;
 
 namespace Server.View.Page_Handlers
 {
-    public class PopupHandler : IDisposable
+    public class PopupHandler
     {
         public List<Popup> Popups { get; }
-        private bool _disposed = false;
 
         public PopupHandler() => Popups = new List<Popup>();
 
@@ -30,16 +28,6 @@ namespace Server.View.Page_Handlers
                 {
                     newOpenedPopup.IsOpen = true;
                 }
-
-                if (Debugger.IsAttached)
-                {
-                    Debug.WriteLine($"Closed popup: {openedPopup?.Name ?? "Unnamed"}\n" +
-                        $"Opened popup: {newOpenedPopup?.Name ?? "Unnamed"}");
-                    foreach (Popup popup in Popups)
-                    {
-                        Debug.WriteLine($"{popup.Name} {popup.IsOpen}");
-                    }
-                }
             }
         }
 
@@ -49,10 +37,6 @@ namespace Server.View.Page_Handlers
             foreach (Popup popup in popups)
             {
                 Popups.Add(popup);
-                if (Debugger.IsAttached)
-                {
-                    Debug.WriteLine($"Popup {popup.Name ?? "Unnamed"}");
-                }
             }
         }
         public void UnregisterPopup(Popup popup) => Popups.Remove(popup);
@@ -79,25 +63,6 @@ namespace Server.View.Page_Handlers
             if (popup != null)
             {
                 popup.IsOpen = false;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    // Dispose managed resources here.
-                    Popups.Clear();
-                }
-                // Dispose unmanaged resources here, if any.
-                _disposed = true;
             }
         }
     }

@@ -2,10 +2,10 @@
 {
     internal interface INetworkServerHost
     {
-        Task Start();
-        Task Close();
-        Task ShutdownBoth();
-        Task ShutdownSendOnly();
-        Task ShutdownReceiveOnly();
+        void Start();
+        void Close();
+        void ShutdownBoth();
+        void ShutdownSendOnly();
+        void ShutdownReceiveOnly();
     }
 }

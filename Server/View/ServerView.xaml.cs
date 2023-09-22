@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-
 using Server.View.Page_Handlers;
 
 namespace Server.View
@@ -20,6 +19,10 @@ namespace Server.View
             _popups.RegisterPopups(Popups);
         }
 
+        public PopupHandler PopupHandler
+        {
+            get => _popups;
+        }
         private List<Popup> Popups()
         {
             List<Popup> popups = new()

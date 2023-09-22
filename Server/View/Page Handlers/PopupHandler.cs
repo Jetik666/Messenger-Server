@@ -57,7 +57,7 @@ namespace Server.View.Page_Handlers
         }
         public void UnregisterPopup(Popup popup) => Popups.Remove(popup);
         public void UnregisterAllPopups() => Popups.Clear();
-        public void DeactivatePopup()
+        public void DeactivatePopups()
         {
             foreach (Popup popup in Popups)
             {

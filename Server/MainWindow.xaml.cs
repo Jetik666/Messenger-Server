@@ -58,6 +58,15 @@ namespace Server
             Close();
         }
 
+        private void WindowMouseDown(object sender, RoutedEventArgs e) => CloseAllPopups();
+        private void WindowDeactivated(object sender, EventArgs e) => CloseAllPopups();
+        private void WindowLocation(object sender, EventArgs e) => CloseAllPopups();
+
+        private void CloseAllPopups()
+        {
+            _viewHandler.ServerView.PopupHandler.DeactivatePopups();
+        }
+
         private void ServerView(object sender, RoutedEventArgs e)
         {
             if (Debugger.IsAttached)
@@ -93,6 +102,7 @@ namespace Server
 
         private void ShowDesc(object sender, RoutedEventArgs e)
         {
+            CloseAllPopups();
             if (sender is Button button)
             {
                 if (Math.Abs(MenuBar.Width - 128) < 0.001)

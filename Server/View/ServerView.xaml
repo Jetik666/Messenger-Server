@@ -486,7 +486,7 @@
                       Margin="5">
                     <Button x:Name="ChangeServerStatus" 
                             Click="ServerStart"
-                            Style="{StaticResource ServerStatus}">
+                            Style="{DynamicResource ServerStatus}">
                         <TextBlock x:Name="ServerStatus" 
                                    Text="Start" 
                                    FontSize="24"

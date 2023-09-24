@@ -23,6 +23,9 @@ namespace Server.View
 
             _popups = new();
             _popups.RegisterPopups(Popups);
+
+            Application.Current.Resources["StatusColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4B0000"));
+            Application.Current.Resources["IsMouseOverColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#004B00"));
         }
 
         public PopupHandler PopupHandler
@@ -94,11 +97,8 @@ namespace Server.View
                 {
                     _host.Start();
 
-                    senderButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#004B00"));
-                    senderButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4B0000"));
-
-                    // TODO: change text
-                    //senderButton.
+                    Application.Current.Resources["StatusColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#004B00"));
+                    Application.Current.Resources["IsMouseOverColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4B0000"));
                 }
                 catch (Exception ex) 
                 {

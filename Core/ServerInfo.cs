@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core
 {
@@ -13,9 +8,9 @@ namespace Core
         private IPAddress? _ip; 
         private ushort _port;
 
-        private AddressFamily _addressFamily;
-        private SocketType _socketType;
-        private ProtocolType _protocolType;
+        public AddressFamily AddressFamily { get; set; }
+        public SocketType SocketType { get; set; }
+        public ProtocolType ProtocolType { get; set; }
 
         public IPEndPoint EndPoint { get; set; }
         public Socket Socket { get; set; }
@@ -25,26 +20,99 @@ namespace Core
             _ip = IPAddress.Parse("127.0.0.1");
             _port = 50500;
 
-            _addressFamily = AddressFamily.InterNetwork;
-            _socketType = SocketType.Stream;
-            _protocolType = ProtocolType.Tcp;
+            AddressFamily = AddressFamily.InterNetwork;
+            SocketType = SocketType.Stream;
+            ProtocolType = ProtocolType.Tcp;
 
             EndPoint = new IPEndPoint(_ip, _port);
-            Socket = new Socket(_addressFamily, _socketType, _protocolType);
+            Socket = new Socket(AddressFamily, SocketType, ProtocolType);
         }
 
+        public void SetAddressFamilyFromString(string addressFamily)
+        {
+            AddressFamily = GetAddressFamilyFromString(addressFamily);
+        }
+        private static AddressFamily GetAddressFamilyFromString(string addressFamily)
+        {
+            /*switch(addressFamily)
+            {
+                case "InterNetwork":
+                    return AddressFamily.InterNetwork;
+                case "InterNetworkV6":
+                    return AddressFamily.InterNetworkV6;
+                case "Ipx":
+                    return AddressFamily.Ipx;
+                case "NetBios":
+                    return AddressFamily.NetBios;
+                default:
+                    throw new NotImplementedException();
+            }*/
 
-        public string AddressFamily
-        { 
-            get { return _addressFamily; } 
+            // C# 8.0 or greater
+            return addressFamily switch
+            {
+                "InterNetwork" => AddressFamily.InterNetwork,
+                "InterNetworkV6" => AddressFamily.InterNetworkV6,
+                "Ipx" => AddressFamily.Ipx,
+                "NetBios" => AddressFamily.NetBios,
+                _ => throw new NotImplementedException(),
+            };
         }
 
+        public void SetSocketTypeFromString(string socketType)
+        {
+            SocketType = GetSocketTypeFromString(socketType);
+        }
+        private static SocketType GetSocketTypeFromString(string socketType)
+        {
+            return socketType switch
+            {
+                "Dgram" => SocketType.Dgram,
+                "Raw" => SocketType.Raw,
+                "Rdm" => SocketType.Rdm,
+                "Seqpacket" => SocketType.Seqpacket,
+                "Stream" => SocketType.Stream,
+                "Unknown" => SocketType.Unknown,
+                _ => throw new NotImplementedException()
+            };
+        }
 
-
-
-
-
-
+        public void SetProtocolTypeFromString(string protocolType)
+        {
+            ProtocolType = GetProtocolTypeFromString(protocolType);
+        }
+        private static ProtocolType GetProtocolTypeFromString(string protocolType)
+        {
+            return protocolType switch
+            {
+                "Ggp" => ProtocolType.Ggp,
+                "Icmp" => ProtocolType.Icmp,
+                "IcmpV6" => ProtocolType.IcmpV6,
+                "Idp" => ProtocolType.Idp,
+                "Igmp" => ProtocolType.Igmp,
+                "IP" => ProtocolType.IP,
+                "IPSecAuthenticationHeader" => ProtocolType.IPSecAuthenticationHeader,
+                "IPSecEncapsulatingSecurityPayload" => ProtocolType.IPSecEncapsulatingSecurityPayload,
+                "IPv4" => ProtocolType.IPv4,
+                "IPv6" => ProtocolType.IPv6,
+                "IPv6DestinationOptions" => ProtocolType.IPv6DestinationOptions,
+                "IPv6FragmentHeader" => ProtocolType.IPv6FragmentHeader,
+                "IPv6HopByHopOptions" => ProtocolType.IPv6HopByHopOptions,
+                "IPv6NoNextHeader" => ProtocolType.IPv6NoNextHeader,
+                "IPv6RoutingHeader" => ProtocolType.IPv6RoutingHeader,
+                "Ipx" => ProtocolType.Ipx,
+                "ND" => ProtocolType.ND,
+                "Pup" => ProtocolType.Pup,
+                "Raw" => ProtocolType.Raw,
+                "Spx" => ProtocolType.Spx,
+                "SpxII" => ProtocolType.SpxII,
+                "Tcp" => ProtocolType.Tcp,
+                "Udp" => ProtocolType.Udp,
+                "Unknown" => ProtocolType.Unknown,
+                "Unspecified" => ProtocolType.Unspecified,
+                _ => throw new NotImplementedException()
+            };
+        }
 
         bool _disposed = false;
 

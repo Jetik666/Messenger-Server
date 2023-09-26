@@ -23,7 +23,7 @@ namespace Server
             // Hide geforce experience overlay
             RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
 
-            _host = new NetworkServerHost();
+            _host = new();
             _viewHandler = new(_host);
         }
 
@@ -48,6 +48,14 @@ namespace Server
         }
         private void CloseProgram(object sender, RoutedEventArgs e)
         {
+            if (_host.ServerInfo != null)
+            {
+                if (_host.IsOnline)
+                {
+                    _host.Close();
+                }
+                _host.ServerInfo.Dispose();
+            }
             Close();
         }
 

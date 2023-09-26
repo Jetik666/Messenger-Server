@@ -64,7 +64,8 @@
                     <Grid Grid.Column="1" 
                           Margin="5 0 5 0">
                         <TextBox x:Name="GetIP" 
-                                 Text="127.0.0.1" 
+                                 Text="127.0.0.1"
+                                 MaxLength="15"
                                  IsEnabled="True"
                                  Style="{StaticResource DefaultTextBox}"/>
                     </Grid>
@@ -87,6 +88,7 @@
                           Margin="5 0 5 0">
                         <TextBox x:Name="GetPort" 
                                  Text="50500" 
+                                 MaxLength="5"
                                  IsEnabled="True"
                                  Style="{StaticResource DefaultTextBox}"/>
                     </Grid>

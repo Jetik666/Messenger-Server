@@ -95,21 +95,52 @@ namespace Server.View
             {
                 try
                 {
+                    _host.ServerInfo = new ServerInfo(GetIP.Text, ushort.Parse(GetPort.Text), AddressFamilyValue.Text, SocketTypeValue.Text, ProtocolTypeValue.Text);
+
                     _host.Start();
 
                     Application.Current.Resources["StatusColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#004B00"));
                     Application.Current.Resources["IsMouseOverColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4B0000"));
+
+                    senderButton.Click -= ServerStart;
+                    senderButton.Click += ServerClose;
+
+                    ServerStatus.Text = "Close";
                 }
                 catch (Exception ex) 
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message,
+                        "Ошибка",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
         }
+
         private void ServerClose(object sender, RoutedEventArgs e)
         {
+            if (sender is Button senderButton && _host.IsOnline)
+            {
+                try
+                {
+                    _host.Close();
 
-            _host.Close();
+                    Application.Current.Resources["StatusColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#004B00"));
+                    Application.Current.Resources["IsMouseOverColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4B0000"));
+
+                    senderButton.Click -= ServerClose;
+                    senderButton.Click += ServerStart;
+
+                    ServerStatus.Text = "Start";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message,
+                        "Ошибка",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+            }
         }
     }
 }

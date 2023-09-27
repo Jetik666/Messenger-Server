@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 using Core;
 using Server.View.Page_Handlers;
@@ -13,9 +14,9 @@ namespace Server.View
     public partial class ServerView : Page
     {
         private readonly PopupHandler _popups;
-        private readonly NetworkServerHost _host;
+        private readonly Network _host;
 
-        public ServerView(NetworkServerHost host)
+        public ServerView(Network host)
         {
             InitializeComponent();
 
@@ -109,7 +110,11 @@ namespace Server.View
                 }
                 catch (Exception ex) 
                 {
-                    MessageBox.Show(ex.Message,
+                    StackTrace st = new(ex, true);
+                    StackFrame frame = st.GetFrame(0);
+                    int line = frame.GetFileLineNumber();
+
+                    MessageBox.Show(ex.Message + Environment.NewLine + st.ToString() + Environment.NewLine + frame.ToString() + Environment.NewLine + line,
                         "Ошибка",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
@@ -125,8 +130,8 @@ namespace Server.View
                 {
                     _host.Close();
 
-                    Application.Current.Resources["StatusColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#004B00"));
-                    Application.Current.Resources["IsMouseOverColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4B0000"));
+                    Application.Current.Resources["StatusColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4B0000"));
+                    Application.Current.Resources["IsMouseOverColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#004B00"));
 
                     senderButton.Click -= ServerClose;
                     senderButton.Click += ServerStart;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -12,7 +13,7 @@ namespace Server
 {
     public partial class MainWindow : Window
     {
-        private readonly NetworkServerHost _host;
+        private readonly Network _host;
         private readonly ViewHandler _viewHandler;
 
         public MainWindow()
@@ -46,16 +47,23 @@ namespace Server
                     break;
             }
         }
-        private void CloseProgram(object sender, RoutedEventArgs e)
+        private async void CloseProgram(object sender, RoutedEventArgs e)
         {
-            if (_host.ServerInfo != null)
+            if (_host.ServerInfo != null && _host.IsOnline)
             {
-                if (_host.IsOnline)
+                try
                 {
-                    _host.Close();
+                    await _host.Close();
                 }
-                _host.ServerInfo.Dispose();
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message,
+                        "Ошибка",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
             }
+
             Close();
         }
 

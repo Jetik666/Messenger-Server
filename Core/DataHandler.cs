@@ -6,18 +6,21 @@ namespace Core
 {
     internal class DataHandler : IDataHandler
     {
-        public static void HandleAsyncClient(Socket clientSocket)
+        public static async Task HandleAsyncClient(Socket clientSocket)
         {
             try
             {
-                Debug.WriteLine(clientSocket.LocalEndPoint);
-                Debug.WriteLine(clientSocket.RemoteEndPoint);
+                using (NetworkStream networkStream = new(clientSocket)) 
+                {
+                    byte[] receivedBuffer = new byte[1024];
+                    int bytesRead = await networkStream.ReadAsync(receivedBuffer.AsMemory(0, receivedBuffer.Length));
+                    string data = Encoding.ASCII.GetString(receivedBuffer, 0, bytesRead);
 
-                byte[] receivedBuffer = new byte[1024];
-                int bytesRead = clientSocket.Receive(receivedBuffer);
-                string data = Encoding.ASCII.GetString(receivedBuffer, 0, bytesRead);
 
-                Debug.WriteLine(data);
+
+                    byte[] sendBuffer = Encoding.ASCII.GetBytes("Your response data");
+                    await networkStream.WriteAsync(sendBuffer.AsMemory(0, sendBuffer.Length));
+                }
             }
             catch (SocketException ex)
             {

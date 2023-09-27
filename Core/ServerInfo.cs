@@ -74,8 +74,8 @@ namespace Core
             ProtocolType = ProtocolType.Tcp;
 
             EndPoint = new IPEndPoint(_ip, _port);
-            Socket = new Socket(AddressFamily, SocketType, ProtocolType);
 
+            Socket = new Socket(AddressFamily, SocketType, ProtocolType);
             Socket.Bind(EndPoint);
         }
         public ServerInfo(string ip, ushort port, 
@@ -110,8 +110,8 @@ namespace Core
                 {
                     EndPoint = new(_additionalIP, Port);
                 }
+                
                 Socket = new(AddressFamily, SocketType, ProtocolType);
-
                 Socket.Bind(EndPoint);
             }
         }
@@ -147,8 +147,8 @@ namespace Core
                 {
                     EndPoint = new(_additionalIP, Port);
                 }
-                Socket = new(AddressFamily, SocketType, ProtocolType);
 
+                Socket = new(AddressFamily, SocketType, ProtocolType);
                 Socket.Bind(EndPoint);
             }
         }

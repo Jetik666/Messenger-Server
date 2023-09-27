@@ -11,7 +11,7 @@ namespace Server.Control.View
         public DatabaseView DatabaseView { get; }
         public SettingsView SettingsView { get; }
 
-        public ViewHandler(NetworkServerHost host)
+        public ViewHandler(Network host)
         {
             ServerView = new ServerView(host);
             TerminalView = new TerminalView();

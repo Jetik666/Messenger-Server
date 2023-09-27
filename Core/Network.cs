@@ -1,18 +1,22 @@
 ﻿using System.Diagnostics;
+using System.Net.Sockets;
 
 namespace Core
 {
-    public class NetworkServerHost : INetworkServerHost
+    public class Network
     {
-        public ServerInfo? ServerInfo { get; set; }
+        public ServerInfo ServerInfo { get; set; }
 
         public bool IsOnline { get; private set; }
         public bool CanSend { get; private set; }
         public bool CanReceive { get; private set; }
 
-        public NetworkServerHost()
-        {
-            
+        private CancellationTokenSource cts;
+
+        public Network() 
+        { 
+            ServerInfo = new ServerInfo();
+            cts = new CancellationTokenSource();
         }
 
         //public string IP
@@ -71,57 +75,54 @@ namespace Core
         //    }
         //}
 
-        public void Start()
+        public async void Start()
         {
-            //try
-            //{
-            //    if (_ip == null)
-            //    {
-            //        _ip = IPAddress.Loopback;
-            //        _port = 50500;
-            //    }
-            //    Debug.WriteLine($"Current address is {_ip}:{_port}.");
+            if (ServerInfo != null)
+            {
+                ServerInfo.Socket.Listen(5);
 
-            //    EndPoint = new IPEndPoint(_ip, _port);
-            //    Debug.WriteLine("End point created.\nBinding socket.");
+                IsOnline = true;
+                CanSend = true;
+                CanReceive = true;
 
-            //    TcpSocket.Bind(EndPoint);
-            //    Debug.WriteLine("Socket was binded succesfully.");
-            //    IsOnline = true;
-            //    CanSend = true;
-            //    CanReceive = true;
-
-            //    TcpSocket.Listen(2);
-
-            //    Listener();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //    IsOnline = false;
-            //    CanSend = false;
-            //    CanReceive = false;
-            //}
+                cts = new CancellationTokenSource();
+                await Listener();
+            }
         }
-        public async void Close()
+        public async Task Close()
         {
-            //try
-            //{
-            //    Debug.WriteLine("Closing server.");
-            //    TcpSocket.Shutdown(SocketShutdown.Both);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine(ex.Message);
-            //}
-            //finally
-            //{
-            //    TcpSocket.Close();
-            //    IsOnline = false;
-            //    Debug.WriteLine("Server is offline.");
-            //    await Task.CompletedTask;
-            //}
+            if (ServerInfo != null && cts != null)
+            {
+                cts.Cancel();
+
+                try
+                {
+                    ServerInfo.Socket.Shutdown(SocketShutdown.Both);
+                }
+                catch (SocketException ex)
+                {
+                    throw new Exception($"SocketException occured: {ex.Message}\n" +
+                        $"Error code: {ex.ErrorCode}");
+                }
+                catch (ObjectDisposedException ex)
+                {
+                    throw new Exception($"ObjectDisposedException occured: {ex.Message}");
+                }
+                finally
+                {
+                    ServerInfo.Socket.Close();
+                    ServerInfo.Socket.Disconnect(true);
+                    ServerInfo.Socket.Dispose();
+
+                    IsOnline = false;
+                    CanSend = false;
+                    CanReceive = false;
+
+                    await Task.CompletedTask;
+                }
+            }
         }
+
         public async void ShutdownBoth()
         {
             try
@@ -173,17 +174,28 @@ namespace Core
             await Task.CompletedTask;
         }
 
-        private async void Listener()
+        private async Task Listener()
         {
-            while (true)
+            while (!cts.Token.IsCancellationRequested)
             {
-                Debug.WriteLine("Ping");
-                //Socket clientSocket = await Task.Factory.FromAsync(
-                //    new Func<AsyncCallback, object?, IAsyncResult>(TcpSocket.BeginAccept),
-                //    new Func<IAsyncResult, Socket>(TcpSocket.EndAccept),
-                //    null);
-
-                //DataHandler.HandleAsyncClient(clientSocket);
+                try
+                {
+                    Debug.WriteLine(ServerInfo.Socket.Connected);
+                    Socket clientSocket = await Task.Factory.FromAsync(
+                        new Func<AsyncCallback, object?, IAsyncResult>(ServerInfo.Socket.BeginAccept),
+                        new Func<IAsyncResult, Socket>(ServerInfo.Socket.EndAccept),
+                        null);
+                    Debug.WriteLine(ServerInfo.Socket.Connected);
+                    await DataHandler.HandleAsyncClient(clientSocket);
+                }
+                catch (SocketException)
+                {
+                    break;
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
             }
         }
     }

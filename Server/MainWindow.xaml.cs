@@ -47,13 +47,13 @@ namespace Server
                     break;
             }
         }
-        private async void CloseProgram(object sender, RoutedEventArgs e)
+        private void CloseProgram(object sender, RoutedEventArgs e)
         {
-            if (_host.ServerInfo != null && _host.IsOnline)
+            if (_host.Server != null && _host.IsOnline)
             {
                 try
                 {
-                    await _host.Close();
+                    _host.Close();
                 }
                 catch (Exception ex)
                 {

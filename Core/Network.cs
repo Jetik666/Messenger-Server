@@ -1,11 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Net.Sockets;
 
+using Core.ServerInfo;
+
 namespace Core
 {
     public class Network
     {
-        public ServerInfo ServerInfo { get; set; }
+        public Server Server { get; set; }
 
         public bool IsOnline { get; private set; }
         public bool CanSend { get; private set; }
@@ -15,7 +17,7 @@ namespace Core
 
         public Network() 
         { 
-            ServerInfo = new ServerInfo();
+            Server = new Server();
             cts = new CancellationTokenSource();
         }
 
@@ -77,9 +79,9 @@ namespace Core
 
         public async void Start()
         {
-            if (ServerInfo != null)
+            if (Server.Socket != null)
             {
-                ServerInfo.Socket.Listen(5);
+                Server.Socket.Listen(5);
 
                 IsOnline = true;
                 CanSend = true;
@@ -89,15 +91,15 @@ namespace Core
                 await Listener();
             }
         }
-        public async Task Close()
+        public void Close()
         {
-            if (ServerInfo != null && cts != null)
+            if (Server.Socket != null && cts != null)
             {
                 cts.Cancel();
 
                 try
                 {
-                    ServerInfo.Socket.Shutdown(SocketShutdown.Both);
+                    Server.Socket.Shutdown(SocketShutdown.Both);
                 }
                 catch (SocketException ex)
                 {
@@ -110,15 +112,11 @@ namespace Core
                 }
                 finally
                 {
-                    ServerInfo.Socket.Close();
-                    ServerInfo.Socket.Disconnect(true);
-                    ServerInfo.Socket.Dispose();
+                    Server.Socket.Close();
 
                     IsOnline = false;
                     CanSend = false;
                     CanReceive = false;
-
-                    await Task.CompletedTask;
                 }
             }
         }
@@ -176,26 +174,29 @@ namespace Core
 
         private async Task Listener()
         {
-            while (!cts.Token.IsCancellationRequested)
+            if (Server.Socket != null)
             {
-                try
+                while (!cts.Token.IsCancellationRequested)
                 {
-                    Debug.WriteLine(ServerInfo.Socket.Connected);
-                    Socket clientSocket = await Task.Factory.FromAsync(
-                        new Func<AsyncCallback, object?, IAsyncResult>(ServerInfo.Socket.BeginAccept),
-                        new Func<IAsyncResult, Socket>(ServerInfo.Socket.EndAccept),
-                        null);
-                    Debug.WriteLine(ServerInfo.Socket.Connected);
-                    await DataHandler.HandleAsyncClient(clientSocket);
+                    try
+                    {
+                        Socket clientSocket = await Task.Factory.FromAsync(
+                            new Func<AsyncCallback, object?, IAsyncResult>(Server.Socket.BeginAccept),
+                            new Func<IAsyncResult, Socket>(Server.Socket.EndAccept),
+                            null);
+                        await DataHandler.HandleAsyncClient(clientSocket);
+                    }
+                    catch (SocketException)
+                    {
+                        break;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        break;
+                    }
                 }
-                catch (SocketException)
-                {
-                    break;
-                }
-                catch (OperationCanceledException)
-                {
-                    break;
-                }
+
+                Server.Socket.Close();
             }
         }
     }

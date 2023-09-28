@@ -96,8 +96,13 @@ namespace Server.View
             {
                 try
                 {
-                    _host.ServerInfo = new ServerInfo(GetIP.Text, ushort.Parse(GetPort.Text), AddressFamilyValue.Text, SocketTypeValue.Text, ProtocolTypeValue.Text);
-
+                    _host.Server.ValidateIPv4(GetIP.Text);
+                    _host.Server.ValidatePort(GetPort.Text);
+                    _host.Server.ValidateAddressFamily(AddressFamilyValue.Text);
+                    _host.Server.ValidateSocketType(SocketTypeValue.Text);
+                    _host.Server.ValidateProtocolType(ProtocolTypeValue.Text);
+                    _host.Server.UpdateEndPoint();
+                    _host.Server.UpdateSocket();
                     _host.Start();
 
                     Application.Current.Resources["StatusColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#004B00"));
@@ -111,7 +116,7 @@ namespace Server.View
                 catch (Exception ex) 
                 {
                     StackTrace st = new(ex, true);
-                    StackFrame frame = st.GetFrame(0);
+                    StackFrame? frame = st.GetFrame(0);
                     int line = frame.GetFileLineNumber();
 
                     MessageBox.Show(ex.Message + Environment.NewLine + st.ToString() + Environment.NewLine + frame.ToString() + Environment.NewLine + line,

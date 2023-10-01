@@ -7,6 +7,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using Core;
+using Core.ServerInfo;
 using Server.View.Page_Handlers;
 
 namespace Server.View
@@ -42,6 +43,41 @@ namespace Server.View
                 ProtocolTypePopup
             };
             return popups;
+        }
+
+        private void IPChanged(object sender, EventArgs e)
+        {
+            ServerValidator serverValidator = new();
+
+            if (sender is TextBox textBox)
+            {
+                try
+                {
+                    serverValidator.ValidateIPv4(textBox.Text);
+                    textBox.BorderBrush = new SolidColorBrush(Colors.White);
+                }
+                catch
+                {
+                    textBox.BorderBrush = new SolidColorBrush(Colors.Red);
+                }
+            }
+        }
+        private void PortChanged(object sender, EventArgs e)
+        {
+            ServerValidator serverValidator = new();
+
+            if (sender is TextBox textBox)
+            {
+                try
+                {
+                    serverValidator.ValidatePort(textBox.Text);
+                    textBox.BorderBrush = new SolidColorBrush(Colors.White);
+                }
+                catch
+                {
+                    textBox.BorderBrush = new SolidColorBrush(Colors.Red);
+                }
+            }
         }
 
         private void ShowValues(object sender, RoutedEventArgs e)
@@ -112,6 +148,8 @@ namespace Server.View
                     senderButton.Click += ServerClose;
 
                     ServerStatus.Text = "Close";
+
+                    ToggleElements(false);
                 }
                 catch (Exception ex) 
                 {
@@ -126,7 +164,6 @@ namespace Server.View
                 }
             }
         }
-
         private void ServerClose(object sender, RoutedEventArgs e)
         {
             if (sender is Button senderButton && _host.IsOnline)
@@ -142,6 +179,8 @@ namespace Server.View
                     senderButton.Click += ServerStart;
 
                     ServerStatus.Text = "Start";
+
+                    ToggleElements(false);
                 }
                 catch (Exception ex)
                 {
@@ -151,6 +190,14 @@ namespace Server.View
                         MessageBoxImage.Error);
                 }
             }
+        }
+        private void ToggleElements(bool toggle)
+        {
+            GetIP.IsEnabled = toggle;
+            GetPort.IsEnabled = toggle;
+            AddressFamilyShow.IsEnabled = toggle;
+            SocketTypeShow.IsEnabled = toggle;
+            ProtocolTypeShow.IsEnabled = toggle;
         }
     }
 }

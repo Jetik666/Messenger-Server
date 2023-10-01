@@ -34,6 +34,11 @@ namespace Core.ServerInfo
                 throw new ArgumentNullException(nameof(newPort), $"The provided port is null.");
             }
 
+            if (Convert.ToUInt16(newPort) > ushort.MaxValue || Convert.ToUInt16(newPort) < ushort.MinValue)
+            {
+                throw new ArgumentOutOfRangeException(nameof(newPort), $"The provided port is out of range");
+            }
+
             try
             {
                 ushort port = Convert.ToUInt16(newPort);

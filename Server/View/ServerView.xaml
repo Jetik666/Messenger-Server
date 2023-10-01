@@ -66,6 +66,7 @@
                         <TextBox x:Name="GetIP" 
                                  Text="127.0.0.1"
                                  MaxLength="15"
+                                 TextChanged="IPChanged"
                                  IsEnabled="True"
                                  Style="{StaticResource DefaultTextBox}"/>
                     </Grid>
@@ -89,6 +90,7 @@
                         <TextBox x:Name="GetPort" 
                                  Text="50500" 
                                  MaxLength="5"
+                                 TextChanged="PortChanged"
                                  IsEnabled="True"
                                  Style="{StaticResource DefaultTextBox}"/>
                     </Grid>

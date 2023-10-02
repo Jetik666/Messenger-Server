@@ -7,7 +7,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using Core;
-using Core.ServerInfo;
+using Core.Validator;
 using Server.View.Page_Handlers;
 
 namespace Server.View
@@ -47,36 +47,16 @@ namespace Server.View
 
         private void IPChanged(object sender, EventArgs e)
         {
-            ServerValidator serverValidator = new();
-
             if (sender is TextBox textBox)
             {
-                try
-                {
-                    serverValidator.ValidateIPv4(textBox.Text);
-                    textBox.BorderBrush = new SolidColorBrush(Colors.White);
-                }
-                catch
-                {
-                    textBox.BorderBrush = new SolidColorBrush(Colors.Red);
-                }
+                ToggleTextBoxes(textBox, NetworkValidator.IPv4);
             }
         }
         private void PortChanged(object sender, EventArgs e)
         {
-            ServerValidator serverValidator = new();
-
             if (sender is TextBox textBox)
             {
-                try
-                {
-                    serverValidator.ValidatePort(textBox.Text);
-                    textBox.BorderBrush = new SolidColorBrush(Colors.White);
-                }
-                catch
-                {
-                    textBox.BorderBrush = new SolidColorBrush(Colors.Red);
-                }
+                ToggleTextBoxes(textBox, NetworkValidator.Port);
             }
         }
 
@@ -132,11 +112,11 @@ namespace Server.View
             {
                 try
                 {
-                    _host.Server.ValidateIPv4(GetIP.Text);
-                    _host.Server.ValidatePort(GetPort.Text);
-                    _host.Server.ValidateAddressFamily(AddressFamilyValue.Text);
-                    _host.Server.ValidateSocketType(SocketTypeValue.Text);
-                    _host.Server.ValidateProtocolType(ProtocolTypeValue.Text);
+                    _host.Server.ChangeIPv4(GetIP.Text);
+                    _host.Server.Port(GetPort.Text);
+                    _host.Server.ChangeSocketParameter(AddressFamilyValue.Text);
+                    _host.Server.ChangeST(SocketTypeValue.Text);
+                    _host.Server.ChangePT(ProtocolTypeValue.Text);
                     _host.Server.UpdateEndPoint();
                     _host.Server.UpdateSocket();
                     _host.Start();
@@ -189,6 +169,25 @@ namespace Server.View
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }
+            }
+        }
+        private static void ToggleTextBoxes(TextBox textBox, Action<string> action)
+        {
+            if (textBox.Text != null)
+            {
+                try
+                {
+                    action(textBox.Text);
+                    textBox.BorderBrush = new SolidColorBrush(Colors.White);
+                }
+                catch
+                {
+                    textBox.BorderBrush = new SolidColorBrush(Colors.Red);
+                }
+            }
+            else
+            {
+                textBox.BorderBrush = new SolidColorBrush(Colors.Red);
             }
         }
         private void ToggleElements(bool toggle)

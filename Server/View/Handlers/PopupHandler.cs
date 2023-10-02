@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Controls.Primitives;
 
-namespace Server.View.Page_Handlers
+namespace Server.View.Handlers
 {
     public class PopupHandler
     {

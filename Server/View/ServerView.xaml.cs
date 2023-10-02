@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -8,7 +10,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Core;
 using Core.Validator;
-using Server.View.Page_Handlers;
+using Server.Control.Animations;
+using Server.View.Handlers;
 
 namespace Server.View
 {
@@ -26,8 +29,8 @@ namespace Server.View
             _popups = new();
             _popups.RegisterPopups(Popups);
 
-            Application.Current.Resources["StatusColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4B0000"));
-            Application.Current.Resources["IsMouseOverColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#004B00"));
+            ToggleColorsHEX("StatusColor", "#4B0000");
+            ToggleColorsHEX("IsMouseOverColor", "#004B00");
         }
 
         public PopupHandler PopupHandler
@@ -108,95 +111,105 @@ namespace Server.View
         
         private void ServerStart(object sender, RoutedEventArgs e)
         {
-            if (sender is Button senderButton && !_host.IsOnline)
+            if (sender is not Button senderButton || _host.IsOnline)
             {
-                try
-                {
-                    _host.Server.ChangeIPv4(GetIP.Text);
-                    _host.Server.Port(GetPort.Text);
-                    _host.Server.ChangeSocketParameter(AddressFamilyValue.Text);
-                    _host.Server.ChangeST(SocketTypeValue.Text);
-                    _host.Server.ChangePT(ProtocolTypeValue.Text);
-                    _host.Server.UpdateEndPoint();
-                    _host.Server.UpdateSocket();
-                    _host.Start();
+                return;
+            }
 
-                    Application.Current.Resources["StatusColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#004B00"));
-                    Application.Current.Resources["IsMouseOverColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4B0000"));
+            try
+            {
+                _host.Configuration.SetParameter<IPAddress>(GetIP.Text, false);
+                _host.Configuration.SetParameter<ushort>(GetPort.Text, false);
+                _host.Configuration.SetParameter<AddressFamily>(AddressFamilyValue.Text, false);
+                _host.Configuration.SetParameter<SocketType>(SocketTypeValue.Text, false);
+                _host.Configuration.SetParameter<ProtocolType>(ProtocolTypeValue.Text, false);
 
-                    senderButton.Click -= ServerStart;
-                    senderButton.Click += ServerClose;
+                _host.Configuration.SetEndPoint();
+                _host.Configuration.SetSocket();
 
-                    ServerStatus.Text = "Close";
+                _host.Start();
 
-                    ToggleElements(false);
-                }
-                catch (Exception ex) 
-                {
-                    StackTrace st = new(ex, true);
-                    StackFrame? frame = st.GetFrame(0);
-                    int line = frame.GetFileLineNumber();
+                _host.Configuration.AbleToEdit = false;
 
-                    MessageBox.Show(ex.Message + Environment.NewLine + st.ToString() + Environment.NewLine + frame.ToString() + Environment.NewLine + line,
-                        "Ошибка",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
+                ToggleColorsHEX("StatusColor", "#004B00");
+                ToggleColorsHEX("IsMouseOverColor", "#4B0000");
+                ServerStatus.Text = "Close";
+                ToggleElements(false, 1, 0.5);
+
+                senderButton.Click -= ServerStart;
+                senderButton.Click += ServerClose;
+            }
+            catch (Exception ex)
+            {
+                StackTrace st = new(ex, true);
+                StackFrame? frame = st.GetFrame(0);
+                int line = frame.GetFileLineNumber();
+
+                MessageBox.Show(ex.Message + Environment.NewLine + st.ToString() + Environment.NewLine + frame.ToString() + Environment.NewLine + line,
+                    "Ошибка",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
         private void ServerClose(object sender, RoutedEventArgs e)
         {
-            if (sender is Button senderButton && _host.IsOnline)
+            if (sender is not Button senderButton || !_host.IsOnline)
             {
-                try
-                {
-                    _host.Close();
+                return;
+            }
 
-                    Application.Current.Resources["StatusColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4B0000"));
-                    Application.Current.Resources["IsMouseOverColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#004B00"));
+            try
+            {
+                _host.Close();
 
-                    senderButton.Click -= ServerClose;
-                    senderButton.Click += ServerStart;
+                _host.Configuration.AbleToEdit = true;
 
-                    ServerStatus.Text = "Start";
+                ToggleColorsHEX("StatusColor", "#4B0000");
+                ToggleColorsHEX("IsMouseOverColor", "#004B00");
+                ServerStatus.Text = "Start";
+                ToggleElements(false, 0.5, 1);
 
-                    ToggleElements(false);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message,
-                        "Ошибка",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
+                senderButton.Click -= ServerClose;
+                senderButton.Click += ServerStart;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,
+                    "Ошибка",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
+
         private static void ToggleTextBoxes(TextBox textBox, Action<string> action)
         {
-            if (textBox.Text != null)
+            try
             {
-                try
-                {
-                    action(textBox.Text);
-                    textBox.BorderBrush = new SolidColorBrush(Colors.White);
-                }
-                catch
-                {
-                    textBox.BorderBrush = new SolidColorBrush(Colors.Red);
-                }
+                action(textBox.Text);
+                textBox.BorderBrush = new SolidColorBrush(Colors.White);
             }
-            else
+            catch
             {
                 textBox.BorderBrush = new SolidColorBrush(Colors.Red);
             }
         }
-        private void ToggleElements(bool toggle)
+        private void ToggleElements(bool toggle, double fromValue, double toValue)
         {
             GetIP.IsEnabled = toggle;
             GetPort.IsEnabled = toggle;
             AddressFamilyShow.IsEnabled = toggle;
             SocketTypeShow.IsEnabled = toggle;
             ProtocolTypeShow.IsEnabled = toggle;
+
+            AnimationHandler.DoubleAnimation(GetIP, OpacityProperty, fromValue, toValue, 250);
+            AnimationHandler.DoubleAnimation(GetPort, OpacityProperty, fromValue, toValue, 250);
+            AnimationHandler.DoubleAnimation(AddressFamilyShow, OpacityProperty, fromValue, toValue, 250);
+            AnimationHandler.DoubleAnimation(SocketTypeShow, OpacityProperty, fromValue, toValue, 250);
+            AnimationHandler.DoubleAnimation(ProtocolTypeShow, OpacityProperty, fromValue, toValue, 250);
+        }
+        private static void ToggleColorsHEX(string resource, string colorHEX)
+        {
+            Application.Current.Resources[resource] = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorHEX));
         }
     }
 }

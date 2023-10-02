@@ -1,7 +1,6 @@
-﻿using System.Net;
+﻿using Core.Configuration;
+using System.Net;
 using System.Net.Sockets;
-
-using Core.Configuration;
 
 // TODO: Add loger to all exceptions
 
@@ -17,7 +16,7 @@ namespace Core.Validator
         /// </summary>
         /// <param name="newIP">New IPv4 Address.</param>
         /// <returns>New or default IPv4 Address.</returns>
-        protected IPAddress ChangeIPv4(string newIP) 
+        protected IPAddress SetIPv4(string newIP) 
         {
             try
             {
@@ -43,7 +42,7 @@ namespace Core.Validator
         /// </summary>
         /// <param name="newPort">New Port.</param>
         /// <returns>New or default Port.</returns>
-        protected ushort ChangePort(string newPort) 
+        protected ushort SetPort(string newPort) 
         {
             try
             {
@@ -65,7 +64,7 @@ namespace Core.Validator
         /// <typeparam name="T">It`s type of a Socket parameter.</typeparam>
         /// <param name="newValue">New value of a Socket parameter as a string.</param>
         /// <returns>New or default value of a Socket parameter</returns>
-        protected T ChangeSocketParameter<T>(string newValue) where T : Enum
+        protected T SetSocketParameter<T>(string newValue) where T : Enum
         {
             try
             {

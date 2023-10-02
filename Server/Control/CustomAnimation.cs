@@ -15,8 +15,6 @@ namespace Server.Control.Animations
                 throw new ArgumentNullException(nameof(sender), "Sender is null.");
             }
 
-            Debug.WriteLine(sender.GetType().Name + " type.");
-
             DoubleAnimation animation = new()
             {
                 From = fromValue,
@@ -31,6 +29,9 @@ namespace Server.Control.Animations
                     break;
                 case Button button:
                     button.BeginAnimation(property, animation);
+                    break;
+                case TextBox textBox:
+                        textBox.BeginAnimation(property, animation);
                     break;
                 default:
                     Debug.WriteLine("Unknown type.");

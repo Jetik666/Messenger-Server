@@ -24,7 +24,7 @@ namespace Core.Configuration
         protected readonly SocketType _defaultSocketType;
         protected readonly ProtocolType _defaultProtocolType;
 
-        protected DefaultConfiguration()
+        protected DefaultConfiguration() 
         {
             _defaultIP = IPAddress.Parse("127.0.0.1");
             _defaultPort = 50500;

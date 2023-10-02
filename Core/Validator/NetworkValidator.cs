@@ -8,7 +8,7 @@ namespace Core.Validator
     public static class NetworkValidator
     {
         /// <summary>
-        /// Static method ChangeIPv4 validates new IP if there are no errors.
+        /// Static method ChangeIPv4 validates new IPv4 if there are no errors.
         /// </summary>
         /// <param name="newIP"></param>
         /// <returns>New IPv4 value.</returns>
@@ -78,9 +78,10 @@ namespace Core.Validator
         }
 
         /// <summary>
-        /// Static method ChangeIPv4 validates new IP if there are no errors.
+        /// Static method ChangeIPv4 validates new IPv4 if there are no errors.
         /// </summary>
         /// <param name="newIP"></param>
+        /// <returns>True if IPv4 is valid.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -111,6 +112,7 @@ namespace Core.Validator
         /// <para>Port has range from 0 to 65535.</para>
         /// </summary>
         /// <param name="newPort">New Port.</param>
+        /// <returns>True if Port is valid.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static void Port(string newPort)
@@ -131,15 +133,11 @@ namespace Core.Validator
         /// </summary>
         /// <typeparam name="T">Type of a Socket Parameter.</typeparam>
         /// <param name="newValue">Value of a Socket Parameter</param>
-        /// <returns>New Value of a Socket Parameter</returns>
+        /// <returns>True if Socket parameter is valid.</returns>
         /// <exception cref="ArgumentException"></exception>
         public static void SocketParameter<T>(string newValue)
         {
-            if (Enum.IsDefined(typeof(T), newValue))
-            {
-                return;
-            }
-            else
+            if (!Enum.IsDefined(typeof(T), newValue))
             {
                 throw new ArgumentException($"Unknown address family: {newValue}.",
                     nameof(newValue));

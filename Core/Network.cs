@@ -7,7 +7,7 @@ namespace Core
 {
     public class Network
     {
-        public NetworkConfiguration Server { get; set; }
+        public NetworkConfiguration Configuration { get; set; }
 
         public bool IsOnline { get; private set; }
         public bool CanSend { get; private set; }
@@ -17,15 +17,15 @@ namespace Core
 
         public Network() 
         {
-            Server = new NetworkConfiguration();
+            Configuration = new NetworkConfiguration();
             cts = new CancellationTokenSource();
         }
 
         public async void Start()
         {
-            if (Server.Socket != null)
+            if (Configuration.Socket != null)
             {
-                Server.Socket.Listen(5);
+                Configuration.Socket.Listen(5);
 
                 IsOnline = true;
                 CanSend = true;
@@ -37,13 +37,13 @@ namespace Core
         }
         public void Close()
         {
-            if (Server.Socket != null && cts != null)
+            if (Configuration.Socket != null && cts != null)
             {
                 cts.Cancel();
 
                 try
                 {
-                    Server.Socket.Shutdown(SocketShutdown.Both);
+                    Configuration.Socket.Shutdown(SocketShutdown.Both);
                 }
                 catch (SocketException ex)
                 {
@@ -56,7 +56,7 @@ namespace Core
                 }
                 finally
                 {
-                    Server.Socket.Close();
+                    Configuration.Socket.Close();
 
                     IsOnline = false;
                     CanSend = false;
@@ -118,30 +118,32 @@ namespace Core
 
         private async Task Listener()
         {
-            if (Server.Socket != null)
+            if (Configuration.Socket == null)
             {
-                while (!cts.Token.IsCancellationRequested)
-                {
-                    try
-                    {
-                        Socket clientSocket = await Task.Factory.FromAsync(
-                            new Func<AsyncCallback, object?, IAsyncResult>(Server.Socket.BeginAccept),
-                            new Func<IAsyncResult, Socket>(Server.Socket.EndAccept),
-                            null);
-                        await DataHandler.HandleAsyncClient(clientSocket);
-                    }
-                    catch (SocketException)
-                    {
-                        break;
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        break;
-                    }
-                }
-
-                Server.Socket.Close();
+                return;
             }
+
+            while (!cts.Token.IsCancellationRequested)
+            {
+                try
+                {
+                    Socket clientSocket = await Task.Factory.FromAsync(
+                        new Func<AsyncCallback, object?, IAsyncResult>(Configuration.Socket.BeginAccept),
+                        new Func<IAsyncResult, Socket>(Configuration.Socket.EndAccept),
+                        null);
+                    await DataHandler.HandleAsyncClient(clientSocket);
+                }
+                catch (SocketException)
+                {
+                    break;
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
+            }
+
+            Configuration.Socket.Close();
         }
     }
 }

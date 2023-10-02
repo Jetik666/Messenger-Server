@@ -49,7 +49,7 @@ namespace Server
         }
         private void CloseProgram(object sender, RoutedEventArgs e)
         {
-            if (_host.Server != null && _host.IsOnline)
+            if (_host.Configuration != null && _host.IsOnline)
             {
                 try
                 {

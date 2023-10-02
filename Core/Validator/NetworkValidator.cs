@@ -1,4 +1,4 @@
-﻿using System.Net.Sockets;
+﻿using System.Net;
 
 namespace Core.Validator
 {
@@ -10,7 +10,77 @@ namespace Core.Validator
         /// <summary>
         /// Static method ChangeIPv4 validates new IP if there are no errors.
         /// </summary>
-        /// <param name="newIP">New IP Address.</param>
+        /// <param name="newIP"></param>
+        /// <returns>New IPv4 value.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static IPAddress SetIPv4(string newIP)
+        {
+            if (string.IsNullOrWhiteSpace(newIP))
+            {
+                throw new ArgumentNullException(nameof(newIP),
+                    $"The value is null.");
+            }
+
+            if (IPAddress.TryParse(newIP, out IPAddress? ipAddress))
+            {
+                return ipAddress;
+            }
+            else
+            {
+                throw new ArgumentException($"The value is invalid",
+                    nameof(newIP));
+            }
+        }
+
+        /// <summary>
+        /// Static method ChangePort validates new Port if there are no errors.
+        /// <para>Port has range from 0 to 65535.</para>
+        /// </summary>
+        /// <param name="newPort">New Port.</param>
+        /// <returns>New Port value.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static ushort SetPort(string newPort)
+        {
+            if (string.IsNullOrWhiteSpace(newPort))
+            {
+                throw new ArgumentNullException(nameof(newPort), $"The provided port is null.");
+            }
+
+            if (Convert.ToUInt16(newPort) > ushort.MaxValue || Convert.ToUInt16(newPort) < ushort.MinValue)
+            {
+                throw new ArgumentOutOfRangeException(nameof(newPort), $"The provided port is out of range");
+            }
+
+            return ushort.Parse(newPort);
+        }
+
+        /// <summary>
+        /// Static method SocketValue validates new value for Socket enums if there are no errors.
+        /// </summary>
+        /// <typeparam name="T">Type of a Socket Parameter.</typeparam>
+        /// <param name="newValue">Value of a Socket Parameter</param>
+        /// <returns>New Value of a Socket Parameter</returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static T SetSocketParameter<T>(string newValue)
+        {
+            if (Enum.IsDefined(typeof(T), newValue))
+            {
+                return (T)Enum.Parse(typeof(T), newValue);
+            }
+            else
+            {
+                throw new ArgumentException($"Unknown address family: {newValue}.",
+                    nameof(newValue));
+            }
+        }
+
+        /// <summary>
+        /// Static method ChangeIPv4 validates new IP if there are no errors.
+        /// </summary>
+        /// <param name="newIP"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -54,27 +124,18 @@ namespace Core.Validator
             {
                 throw new ArgumentOutOfRangeException(nameof(newPort), $"The provided port is out of range");
             }
-
-            try
-            {
-                ushort port = Convert.ToUInt16(newPort);
-            }
-            catch (ArgumentException)
-            {
-                throw new ArgumentOutOfRangeException(nameof(newPort),
-                    "The provided port value is not valid.");
-            }
         }
 
         /// <summary>
         /// Static method SocketValue validates new value for Socket enums if there are no errors.
         /// </summary>
-        /// <param name="newValue">New value for a Socket enum as a string type.</param>
-        /// <param name="valueType">It take type of Socket enums.</param>
+        /// <typeparam name="T">Type of a Socket Parameter.</typeparam>
+        /// <param name="newValue">Value of a Socket Parameter</param>
+        /// <returns>New Value of a Socket Parameter</returns>
         /// <exception cref="ArgumentException"></exception>
-        public static void SocketValue(string newValue, Type valueType)
+        public static void SocketParameter<T>(string newValue)
         {
-            if (Enum.IsDefined(valueType, newValue))
+            if (Enum.IsDefined(typeof(T), newValue))
             {
                 return;
             }
@@ -84,41 +145,5 @@ namespace Core.Validator
                     nameof(newValue));
             }
         }
-
-        ///// <summary>
-        ///// Static method ChangeST validates new Socket Type or sets Socket Type to default if there are any errors.
-        ///// </summary>
-        ///// <param name="newSocketType">New Socket Type as a string type.</param>
-        ///// <exception cref="ArgumentException"></exception>
-        //public static void SocketType(string newSocketType)
-        //{
-        //    if (Enum.IsDefined(typeof(SocketType), newSocketType))
-        //    {
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        throw new ArgumentException($"Unknown socket type: {newSocketType}.",
-        //            nameof(newSocketType));
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Static method ChangePT validates new Protocol Type or sets Protocol Type to default if there are any errors.
-        ///// </summary>
-        ///// <param name="newProtocolType">New Protocol Type as a string type.</param>
-        ///// <exception cref="ArgumentException"></exception>
-        //public static void ProtocolType(string newProtocolType)
-        //{
-        //    if (Enum.IsDefined(typeof(ProtocolType), newProtocolType))
-        //    {
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        throw new ArgumentException($"Unknown protocol type: {newProtocolType}.",
-        //            nameof(newProtocolType));
-        //    }
-        //}
     }
 }

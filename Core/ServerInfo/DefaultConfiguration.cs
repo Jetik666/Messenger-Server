@@ -1,12 +1,12 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 
-namespace Core.ServerInfo
+namespace Core.Configuration
 {
-    public abstract class DefaultServerInfo
+    public abstract class DefaultConfiguration
     {
-        protected IPAddress _ip;
-        protected ushort _port;
+        public IPAddress IP { get; set; }
+        public ushort Port { get; set; }
 
         public AddressFamily AddressFamily { get; set; }
         public SocketType SocketType { get; set; }
@@ -15,6 +15,8 @@ namespace Core.ServerInfo
         public IPEndPoint? EndPoint { get; set; }
         public Socket? Socket { get; set; }
 
+        public bool AbleToEdit { get; set; }
+
         protected readonly IPAddress _defaultIP;
         protected readonly ushort _defaultPort;
 
@@ -22,7 +24,7 @@ namespace Core.ServerInfo
         protected readonly SocketType _defaultSocketType;
         protected readonly ProtocolType _defaultProtocolType;
 
-        protected DefaultServerInfo()
+        protected DefaultConfiguration()
         {
             _defaultIP = IPAddress.Parse("127.0.0.1");
             _defaultPort = 50500;
@@ -31,12 +33,14 @@ namespace Core.ServerInfo
             _defaultSocketType = SocketType.Stream;
             _defaultProtocolType = ProtocolType.Tcp;
 
-            _ip = _defaultIP;
-            _port = _defaultPort;
+            IP = _defaultIP;
+            Port = _defaultPort;
 
             AddressFamily = _defaultAddressFamily;
             SocketType = _defaultSocketType;
             ProtocolType = _defaultProtocolType;
+
+            AbleToEdit = true;
         }
     }
 }

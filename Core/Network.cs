@@ -1,13 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Net.Sockets;
 
-using Core.ServerInfo;
+using Core.Configuration;
 
 namespace Core
 {
     public class Network
     {
-        public Server Server { get; set; }
+        public NetworkConfiguration Server { get; set; }
 
         public bool IsOnline { get; private set; }
         public bool CanSend { get; private set; }
@@ -16,66 +16,10 @@ namespace Core
         private CancellationTokenSource cts;
 
         public Network() 
-        { 
-            Server = new Server();
+        {
+            Server = new NetworkConfiguration();
             cts = new CancellationTokenSource();
         }
-
-        //public string IP
-        //{
-        //    get 
-        //    { 
-        //        if (_ip == null)
-        //        {
-        //            return "";
-        //        }
-        //        else
-        //        {
-        //            return _ip.ToString();                
-        //        }
-        //    }
-        //    set
-        //    {
-        //        if (IsOnline)
-        //        {
-        //            if (IPAddress.TryParse(value, out _ip))
-        //            {
-        //                Debug.WriteLine("IP address was changed");
-
-        //            }
-        //            else
-        //            {
-        //                Debug.WriteLine("Invalid IP address");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Debug.WriteLine("Server is offline. You must close it before changing IP or port.");
-        //        }
-        //    }
-        //}
-        //public ushort Port
-        //{
-        //    get => _port;
-        //    set
-        //    {
-        //        if (IsOnline)
-        //        {
-        //            try
-        //            {
-        //                _port = value;
-        //            }
-        //            catch (ArgumentException ex)
-        //            {
-        //                Debug.WriteLine(ex.Message);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Debug.WriteLine("Server is offline. You must close it before changing IP or port.");
-        //        }
-        //    }
-        //}
 
         public async void Start()
         {

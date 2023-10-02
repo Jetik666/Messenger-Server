@@ -1,37 +1,39 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 
-using Core.ServerInfo;
+using Core.Configuration;
+
+// TODO: Add loger to all exceptions
 
 namespace Core.Validator
 {
     /// <summary>
     /// Class NetworkStringValidator is used for server configure validation for string values.
     /// </summary>
-    public abstract class NetworkStringValidator : DefaultServerInfo
+    public abstract class NetworkStringValidator : DefaultConfiguration
     {
         /// <summary>
-        /// Method ChangeIPv4 changes new IP or sets it to default.
+        /// Method ChangeIPv4 changes new IPv4 or sets it to default.
         /// </summary>
-        /// <param name="newIP">New IP Address.</param>
-        protected void ChangeIPv4(string newIP) 
+        /// <param name="newIP">New IPv4 Address.</param>
+        /// <returns>New or default IPv4 Address.</returns>
+        protected IPAddress ChangeIPv4(string newIP) 
         {
             try
             {
-                NetworkValidator.IPv4(newIP);
-                _ip =  IPAddress.Parse(newIP);
+                return NetworkValidator.SetIPv4(newIP);
             }
             catch (ArgumentNullException argumentNull)
             {
-                _ip = _defaultIP;
+                return _defaultIP;
             }
             catch (ArgumentOutOfRangeException argumentOutOfRange)
             {
-                _ip = _defaultIP;
+                return _defaultIP;
             }
             catch (ArgumentException argument)
             {
-                _ip = _defaultIP;
+                return _defaultIP;
             }
         }
 
@@ -40,20 +42,20 @@ namespace Core.Validator
         /// <para>Port has range from 0 to 65535.</para>
         /// </summary>
         /// <param name="newPort">New Port.</param>
-        protected void ChangePort(string newPort) 
+        /// <returns>New or default Port.</returns>
+        protected ushort ChangePort(string newPort) 
         {
             try
             {
-                NetworkValidator.Port(newPort);
-                _port = Convert.ToUInt16(newPort);
+                return NetworkValidator.SetPort(newPort);
             }
             catch (ArgumentNullException argumentNull)
             {
-                _port = _defaultPort;
+                return _defaultPort;
             }
             catch (ArgumentOutOfRangeException argumentOutOfRange)
             {
-                _port = _defaultPort;
+                return _defaultPort;
             }
         }
 
@@ -62,13 +64,12 @@ namespace Core.Validator
         /// </summary>
         /// <typeparam name="T">It`s type of a Socket parameter.</typeparam>
         /// <param name="newValue">New value of a Socket parameter as a string.</param>
-        /// <returns>New value of a Socket parameter</returns>
+        /// <returns>New or default value of a Socket parameter</returns>
         protected T ChangeSocketParameter<T>(string newValue) where T : Enum
         {
             try
             {
-                NetworkValidator.SocketValue(newValue, typeof(T));
-                return (T)Enum.Parse(typeof(T), newValue);
+                return NetworkValidator.SetSocketParameter<T>(newValue);
             }
             catch (ArgumentException argument)
             {
